@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import logMovieDialog from "./log-movie-dialog.vue";
+
 defineProps<{
   user: {
     username: string;
@@ -21,7 +23,7 @@ defineProps<{
         </v-col>
         <v-col cols="12" md="6" class="d-flex justify-center md:justify-end">
           <div class="d-flex ga-4">
-            <v-btn color="#019319" class="text-uppercase"> log </v-btn>
+            <log-movie-dialog />
             <v-btn color="red" class="text-uppercase"> logout </v-btn>
           </div>
         </v-col>
