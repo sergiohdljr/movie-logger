@@ -1,6 +1,7 @@
 import { Ref, ref } from "vue";
 import ApiTmdb from "../config/axios/axios.config";
 import apiKey from "../config/apiKey";
+import imagePath from "../config/image.path";
 
 type MovieResult = {
   adult: boolean;
@@ -30,6 +31,7 @@ type movie = {
   id: number;
   title: string;
   release_date: string;
+  poster: string;
 };
 
 export function UseMovieSearch() {
@@ -48,6 +50,7 @@ export function UseMovieSearch() {
         id: movie.id,
         title: movie.title,
         release_date: movie.release_date,
+        poster: `${imagePath.url}/${movie.poster_path}`,
       }));
 
       movies.value = result;
