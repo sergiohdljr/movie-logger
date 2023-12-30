@@ -1,9 +1,14 @@
-console.log("rrhrhrh");
+import Express from "express";
+import { Response, Request } from "express";
 
-const hey = "hola";
+const app = Express();
 
-function hello(): string {
-  return hey;
-}
+app.use(Express.json());
 
-hello();
+app.get("/", (req: Request, res: Response) => {
+  return res.json("hello world");
+});
+
+app.listen(8080, () => {
+  console.log("hello world");
+});
