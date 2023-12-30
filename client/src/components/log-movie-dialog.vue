@@ -30,7 +30,6 @@ function controlModal() {
 
 function selectMovie(movie: movie) {
   selectedMovie.value = movie;
-  console.log(movie);
 }
 
 const checkIfMoviesIsEmpty = computed(() => movies.value.length > 0);
@@ -39,7 +38,13 @@ const checkIfMoviesIsEmpty = computed(() => movies.value.length > 0);
 <template>
   <v-dialog width="500">
     <template v-slot:activator="{ props }">
-      <v-btn color="#019319" class="text-uppercase" @click="controlModal" v-bind="props" text="Log">
+      <v-btn
+        color="#019319"
+        class="text-uppercase"
+        @click="controlModal"
+        v-bind="props"
+        text="Log"
+      >
       </v-btn>
     </template>
 
@@ -48,10 +53,17 @@ const checkIfMoviesIsEmpty = computed(() => movies.value.length > 0);
         <v-card-text>
           <v-text-field variant="outlined" v-model="searchValue"></v-text-field>
           <v-card class="mx-0" width="100%">
-            <v-list class="list-item pa-2" v-if="checkIfMoviesIsEmpty" density="comfortable" v-for="movie in movies"
-              :key="movie.id" @click="selectMovie(movie)">{{ movie.title }} ({{
+            <v-list
+              class="list-item pa-2"
+              v-if="checkIfMoviesIsEmpty"
+              density="comfortable"
+              v-for="movie in movies"
+              :key="movie.id"
+              @click="selectMovie(movie)"
+              >{{ movie.title }} ({{
                 movie.release_date.split("-")[0]
-              }})</v-list>
+              }})</v-list
+            >
           </v-card>
         </v-card-text>
 
