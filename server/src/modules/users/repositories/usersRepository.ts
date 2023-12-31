@@ -1,18 +1,6 @@
 import { prisma } from "@shared/prisma/prismaClient";
 import { PrismaClient, User } from "@prisma/client";
-
-type TUserRepository = {
-  save: (user: TCreateUser) => Promise<User>;
-  update: (id: string, payload: TUpdateUser) => Promise<User>;
-  findById: (id: string) => Promise<User | null>;
-  findByEmail: (email: string) => Promise<User | null>;
-  findByUsername: (username: string) => Promise<User | null>;
-  findAll: () => Promise<User[]>;
-  remove: (id: string) => Promise<void>;
-};
-
-type TCreateUser = Omit<User, "id" | "created_at" | "updated_at">;
-type TUpdateUser = Partial<TCreateUser>;
+import { TCreateUser, TUpdateUser, TUserRepository } from "../types";
 
 export class UserRepository implements TUserRepository {
   private readonly prismaClient: PrismaClient;
