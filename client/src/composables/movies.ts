@@ -37,7 +37,7 @@ type movie = {
 export function UseMovieSearch() {
   const loading = ref(false);
   const movies: Ref<movie[]> = ref([]);
-  const movieSelected: Ref<any> = ref(null);
+  const movieSelected: Ref<movie | undefined> = ref(undefined);
 
   async function getMovies(query: string) {
     try {
