@@ -20,7 +20,7 @@ type movie = {
 
 const review = ref("");
 const like = ref(false);
-const watchBefore = ref();
+const watchBefore = ref(false);
 
 function logMovie(selectedMovie: movie) {
   console.log({
@@ -50,6 +50,7 @@ function setRating(rating: number) {
     <v-row>
       <v-col cols="4">
         <v-img
+          class="hover-image"
           alt="Movie Poster"
           width="250"
           height="200"
