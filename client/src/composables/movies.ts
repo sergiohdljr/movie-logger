@@ -37,6 +37,7 @@ type movie = {
 export function UseMovieSearch() {
   const loading = ref(false);
   const movies: Ref<movie[]> = ref([]);
+  const movieSelected: Ref<any> = ref(null);
 
   async function getMovies(query: string) {
     try {
@@ -65,10 +66,16 @@ export function UseMovieSearch() {
     movies.value = [];
   }
 
+  function selectMovie(movie: movie) {
+    movieSelected.value = movie;
+  }
+
   return {
     getMovies,
     clearSearch,
     movies,
     loading,
+    movieSelected,
+    selectMovie,
   };
 }
