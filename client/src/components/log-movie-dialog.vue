@@ -1,17 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { UseMovieSearch } from "./../composables/movies.ts";
-import logMovie from "./log-movie.vue";
+import { ref } from "vue";
 import selectMovie from "./select-movie.vue";
-
-const { movies, clearSearch, movieSelected } = UseMovieSearch();
 
 const isActive = ref(false);
 
-const IsMoviesEmpty = computed(() => movies.value.length > 0);
-
 function controlModal() {
-  if (IsMoviesEmpty) clearSearch();
   isActive.value = !isActive.value;
 }
 </script>
@@ -27,8 +20,7 @@ function controlModal() {
     </v-btn>
 
     <v-dialog v-model="isActive" width="500">
-      <select-movie v-if="!movieSelected" :movies="movies" />
-      <log-movie v-else :selected-movie="movieSelected" />
+      <select-movie />
     </v-dialog>
   </div>
 </template>
