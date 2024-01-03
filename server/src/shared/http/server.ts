@@ -1,4 +1,5 @@
-import Express, { NextFunction, Request, Response } from "express";
+import Express, { Request, Response } from "express";
+import "express-async-errors";
 import { router } from "./routes";
 import { AppError } from "@shared/errors/AppErros";
 
@@ -6,7 +7,7 @@ const app = Express();
 
 app.use(Express.json());
 app.use(router);
-app.use((error: Error, req: Request, res: Response) => {
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
       status: "error",
@@ -20,5 +21,5 @@ app.use((error: Error, req: Request, res: Response) => {
 });
 
 app.listen(8080, () => {
-  console.log("hello world");
+  console.log("server run");
 });
