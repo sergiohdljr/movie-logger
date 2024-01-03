@@ -1,11 +1,16 @@
 import { AppError } from "@shared/errors/AppErros";
 import { UserRepository } from "../repositories/usersRepository";
-import { TCreateUser } from "../types/user.types";
-import { User } from "@prisma/client";
+import { TCreateUser, TUserWithoutPassword } from "../types/user.types";
 import { hash } from "bcrypt";
 
 export class CreateUserService {
-  public async execute({ name, username, password, email, avatar }: TCreateUser): Promise<User> {
+  public async execute({
+    name,
+    username,
+    password,
+    email,
+    avatar,
+  }: TCreateUser): Promise<TUserWithoutPassword> {
     const userRepository = new UserRepository();
 
     const isUserEmailAlreadySave = await userRepository.findByEmail(email);
@@ -30,6 +35,16 @@ export class CreateUserService {
       avatar,
     });
 
-    return user;
+    const userResponse = {
+      username,
+      email,
+      avatar,
+      id: user.id,
+      name,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    } satisfies TUserWithoutPassword;
+
+    return userResponse;
   }
 }
