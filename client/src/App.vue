@@ -11,5 +11,6 @@ const user = {
 <template>
   <v-app>
     <nav-bar :user="user" />
+    <router-view />
   </v-app>
 </template>
