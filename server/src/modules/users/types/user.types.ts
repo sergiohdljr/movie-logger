@@ -12,5 +12,13 @@ type TUserRepository = {
 
 type TCreateUser = Omit<User, "id" | "created_at" | "updated_at">;
 type TUpdateUser = Partial<TCreateUser>;
+type TUserWithoutPassword = Omit<User, "password">;
+type TCreateSession = Pick<TCreateUser, "email" | "password">;
+type TResponseSession = {
+  data: {
+    user: TUserWithoutPassword;
+  };
+  token: string;
+};
 
-export { TCreateUser, TUpdateUser, TUserRepository };
+export { TCreateUser, TUpdateUser, TUserRepository, TCreateSession, TResponseSession };
