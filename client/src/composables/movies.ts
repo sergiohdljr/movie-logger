@@ -1,5 +1,5 @@
 import { Ref, ref } from "vue";
-import ApiTmdb from "../config/axios/axios.config";
+import { ApiTmdb } from "../config/axios/axios.config";
 import apiKey from "../config/apiKey";
 import imagePath from "../config/image.path";
 
@@ -43,7 +43,7 @@ export function UseMovieSearch() {
     try {
       loading.value = true;
       const req = await ApiTmdb.get<SearchResponse>(
-        `/search/movie?api_key=${apiKey.KEY}&query=${query}`
+        `/search/movie?api_key=${apiKey.key}&query=${query}`
       );
       const { data } = req;
 
