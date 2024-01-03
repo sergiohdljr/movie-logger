@@ -4,6 +4,7 @@ import { TCreateSession, TResponseSession } from "../types/user.types";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { jwt } from "@config/auth";
+import { SerializeUser } from "../dtos/serializeUser";
 
 export class CreateSessionService {
   public async execute({ email, password }: TCreateSession): Promise<TResponseSession> {
@@ -30,7 +31,9 @@ export class CreateSessionService {
       expiresIn: jwt.expiresIn,
     });
 
-    const RESPONSE = { data: { user: hasUser }, token } satisfies TResponseSession;
+    const user = new SerializeUser(hasUser);
+
+    const RESPONSE = { data: { user }, token } satisfies TResponseSession;
 
     return RESPONSE;
   }

@@ -2,6 +2,7 @@ import { AppError } from "@shared/errors/AppErros";
 import { UserRepository } from "../repositories/usersRepository";
 import { TCreateUser, TUserWithoutPassword } from "../types/user.types";
 import { hash } from "bcrypt";
+import { SerializeUser } from "../dtos/serializeUser";
 
 export class CreateUserService {
   public async execute({
@@ -27,7 +28,7 @@ export class CreateUserService {
 
     const hashedPassword = await hash(password, 8);
 
-    const user = await userRepository.save({
+    const saveUser = await userRepository.save({
       name,
       username,
       email,
@@ -35,16 +36,8 @@ export class CreateUserService {
       avatar,
     });
 
-    const userResponse = {
-      username,
-      email,
-      avatar,
-      id: user.id,
-      name,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    } satisfies TUserWithoutPassword;
+    const user = new SerializeUser(saveUser);
 
-    return userResponse;
+    return user;
   }
 }
