@@ -21,4 +21,11 @@ type TResponseSession = {
   token: string;
 };
 
-export { TCreateUser, TUpdateUser, TUserRepository, TCreateSession, TResponseSession };
+export {
+  TCreateUser,
+  TUpdateUser,
+  TUserRepository,
+  TCreateSession,
+  TResponseSession,
+  TUserWithoutPassword,
+};
