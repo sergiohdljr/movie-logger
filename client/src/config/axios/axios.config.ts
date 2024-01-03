@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const ApiTmdb = axios.create({
+export const ApiTmdb = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
 });
 
-export default ApiTmdb;
+export const api = axios.create({
+  baseURL: "http://localhost:8080/",
+});
