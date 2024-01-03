@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuth } from "../composables/auth";
 import logMovieDialog from "./log-movie-dialog.vue";
 
 defineProps<{
@@ -7,6 +8,9 @@ defineProps<{
     avatar: string;
   };
 }>();
+
+const { logout } = useAuth();
+
 </script>
 
 <template>
@@ -24,7 +28,7 @@ defineProps<{
         <v-col cols="12" md="6" class="d-flex justify-center md:justify-end">
           <div class="d-flex ga-4">
             <log-movie-dialog />
-            <v-btn color="red" class="text-uppercase"> logout </v-btn>
+            <v-btn color="red" class="text-uppercase" @click="logout" > logout </v-btn>
           </div>
         </v-col>
       </v-row>
