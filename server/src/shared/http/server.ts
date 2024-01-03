@@ -2,10 +2,12 @@ import Express, { Request, Response } from "express";
 import "express-async-errors";
 import { router } from "./routes";
 import { AppError } from "@shared/errors/AppErros";
+import Cors from "cors";
 
 const app = Express();
 
 app.use(Express.json());
+app.use(Cors());
 app.use(router);
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
