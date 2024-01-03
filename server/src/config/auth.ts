@@ -4,4 +4,5 @@ dotenv.config();
 
 export const jwt = {
   jwt_secret: process.env.JWT_SECRET,
+  expiresIn: "3d",
 };
