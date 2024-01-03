@@ -1,6 +1,6 @@
 import { AppError } from "@shared/errors/AppErros";
 import { UserRepository } from "../repositories/usersRepository";
-import { TCreateUser } from "../types";
+import { TCreateUser } from "../types/user.types";
 import { User } from "@prisma/client";
 import { hash } from "bcrypt";
 

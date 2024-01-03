@@ -1,6 +1,6 @@
 import { prisma } from "@shared/prisma/prismaClient";
 import { PrismaClient, User } from "@prisma/client";
-import { TCreateUser, TUpdateUser, TUserRepository } from "../types";
+import { TCreateUser, TUpdateUser, TUserRepository } from "../types/user.types";
 
 export class UserRepository implements TUserRepository {
   private readonly prismaClient: PrismaClient;
