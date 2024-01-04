@@ -6,7 +6,7 @@ export class UserProfileController {
     const { id } = req.user;
     const userProfileService = new UserProfileService();
 
-    const profile = userProfileService.execute(id);
+    const profile = await userProfileService.execute(id);
 
     return res.json(profile);
   }
