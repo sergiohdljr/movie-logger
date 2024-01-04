@@ -18,7 +18,6 @@ export function useAuth() {
       user.value = data.data.user;
       isAuthenticated.value = true;
       localStorage.setItem("token", data.token);
-      console.log(user.value);
     } catch (error) {}
   }
 
