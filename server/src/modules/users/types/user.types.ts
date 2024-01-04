@@ -20,7 +20,7 @@ type TResponseSession = {
   };
   token: string;
 };
-type TUserProfile = Pick<User, "id" | "name" | "email" | "username" | "avatar">;
+type TUserProfile = Pick<User, "name" | "email" | "username" | "avatar">;
 
 export {
   TCreateUser,
