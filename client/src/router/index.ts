@@ -27,9 +27,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !checkAuthentication()) {
     next("/login");
-  } else {
-    next();
+    return;
   }
+
+  if (to.path === "/login" && checkAuthentication()) {
+    next("/");
+    return;
+  }
+
+  next();
 });
 
 export default router;
