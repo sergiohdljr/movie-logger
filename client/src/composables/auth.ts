@@ -34,5 +34,5 @@ export function useAuth() {
     location.reload();
   }
 
-  return { signIn, logout, user, isAuthenticated, checkAuthentication };
+  return { signIn, logout, user, isAuthenticated, token, checkAuthentication };
 }
