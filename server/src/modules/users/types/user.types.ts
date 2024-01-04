@@ -20,6 +20,7 @@ type TResponseSession = {
   };
   token: string;
 };
+type TUserProfile = Pick<User, "id" | "name" | "email" | "username" | "avatar">;
 
 export {
   TCreateUser,
@@ -28,4 +29,5 @@ export {
   TCreateSession,
   TResponseSession,
   TUserWithoutPassword,
+  TUserProfile,
 };
