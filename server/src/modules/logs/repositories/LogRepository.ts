@@ -1,4 +1,4 @@
-import { TCreateLog, TLogRepository, TUpdateLog } from "../types/logs.types";
+import { TCreateLogRepo, TLogRepository, TUpdateLog } from "../types/logs.types";
 import { prisma } from "@shared/prisma/prismaClient";
 import { PrismaClient, Log } from "@prisma/client";
 
@@ -9,9 +9,12 @@ export class LogRepository implements TLogRepository {
     this.prismaClient = prisma;
   }
 
-  public async save(log: TCreateLog): Promise<Log> {
+  public async save({ movie, ...log }: TCreateLogRepo): Promise<Log> {
     const createlog = await this.prismaClient.log.create({
-      data: log,
+      data: {
+        ...log,
+        movie,
+      },
     });
 
     return createlog;
