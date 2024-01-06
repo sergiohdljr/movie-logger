@@ -37,6 +37,20 @@ export class LogRepository implements TLogRepository {
 
     return log;
   }
+
+  public async findAllByUserId(userId: string): Promise<Log[]> {
+    const logsByUser = await this.prismaClient.log.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        movie: true,
+      },
+    });
+
+    return logsByUser;
+  }
+
   public async findAll(): Promise<Log[]> {
     const logs = await this.prismaClient.log.findMany();
     return logs;
