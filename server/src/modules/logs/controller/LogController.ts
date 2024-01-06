@@ -6,9 +6,9 @@ export class LogController {
   public async create(req: Request, res: Response): Promise<Response> {
     const createLogService = new CreateLogService();
     const { id } = req.user;
-    const { movie, ...logMovie } = req.body as TLogBody;
+    const logMovie: TLogBody = req.body;
 
-    const log = await createLogService.execute({ userId: id, ...logMovie }, movie);
+    const log = await createLogService.execute({ userId: id, ...logMovie });
 
     return res.json(log);
   }
