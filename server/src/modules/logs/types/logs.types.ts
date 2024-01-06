@@ -12,6 +12,6 @@ export type TCreateLogRepo = Prisma.LogCreateInput;
 
 export type TUpdateLog = Partial<Omit<Log, "id">>;
 
-export type TCreateLogService = Omit<Log, "id" | "created_at" | "updated_at">;
+export type TCreateLogService = Omit<Log, "id" | "created_at" | "updated_at"> & { movie: Movie };
 
 export type TLogBody = Omit<TCreateLogService, "userId"> & { movie: Movie };
