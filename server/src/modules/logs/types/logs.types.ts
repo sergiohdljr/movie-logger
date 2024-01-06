@@ -4,6 +4,7 @@ export type TLogRepository = {
   save: (log: TCreateLogRepo) => Promise<Log>;
   update: (id: string, payload: TUpdateLog) => Promise<Log>;
   findById: (id: string) => Promise<Log | null>;
+  findAllByUserId: (id: string) => Promise<Log[]>;
   findAll: () => Promise<Log[]>;
   remove: (id: string) => Promise<void>;
 };
