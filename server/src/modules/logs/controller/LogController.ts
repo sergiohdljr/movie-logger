@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 import { CreateLogService } from "../service/CreateLogService";
 import { TLogBody } from "../types/logs.types";
 import { FindLogsByIdService } from "../service/FindLogsByIdService";
+import { DeleteLogService } from "../service/DeleteLogService";
 
 export class LogController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -21,5 +22,14 @@ export class LogController {
     const logs = await findLogsByIdService.execute(id);
 
     return res.json(logs);
+  }
+  public async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.user;
+    const { log_id } = req.params;
+    const deleteUserService = new DeleteLogService();
+
+    await deleteUserService.execute(log_id, id);
+
+    return res.json({});
   }
 }
