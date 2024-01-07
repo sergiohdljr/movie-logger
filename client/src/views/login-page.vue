@@ -1,25 +1,30 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { ref } from "vue";
-import { useAuth } from "../composables/auth";
+import { useAuthStore } from "../store/auth";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
 type LoginPayload = {
   email: string;
   password: string;
 };
 
-const { signIn } = useAuth();
-
+const authStore = useAuthStore();
+const { token } = storeToRefs(authStore);
+const router = useRouter();
 const email: Ref<string> = ref("");
 const password: Ref<string> = ref("");
 
 async function Login(payload: LoginPayload) {
   try {
-    await signIn(payload);
-    location.reload();
+    await authStore.signIn(payload);
+    router.push("/");
   } catch (error) {
     throw new Error("login error");
   }
+
+  console.log(token);
 
   email.value = "";
   password.value = "";

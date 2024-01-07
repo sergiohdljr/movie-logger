@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import homePageVue from "../views/home-page.vue";
 import loginPageVue from "../views/login-page.vue";
-import { useAuth } from "../composables/auth";
-
-const { checkAuthentication } = useAuth();
+import { useAuthStore } from "../store/auth";
 
 const routes = [
   {
@@ -25,12 +23,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !checkAuthentication()) {
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth && !authStore.checkAuthentication()) {
     next("/login");
     return;
   }
 
-  if (to.path === "/login" && checkAuthentication()) {
+  if (to.path === "/login" && authStore.checkAuthentication()) {
     next("/");
     return;
   }
