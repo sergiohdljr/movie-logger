@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ref } from "vue";
+import { useAuthStore } from "../store/auth";
+import { storeToRefs } from "pinia";
+import { api } from "../config/axios/axios.config";
 
 defineProps<{
   selectedMovie: {
@@ -10,6 +13,22 @@ defineProps<{
     poster: string;
   };
 }>();
+
+type TLogBody = {
+  rating: number;
+  review: string;
+  had_watched_before: boolean;
+  movie_watched_date: Date;
+  like: boolean;
+  contain_spoilers: boolean;
+  movieId: number;
+  movie: {
+    id: number;
+    poster: string;
+    name: string;
+    year: string;
+  };
+};
 
 type movie = {
   id: number;
@@ -22,14 +41,32 @@ const review = ref("");
 const like = ref(false);
 const watchBefore = ref(false);
 
-function logMovie(selectedMovie: movie) {
-  console.log({
-    ...selectedMovie,
-    review: review.value,
-    like: like.value,
+const authStore = useAuthStore();
+const { token } = storeToRefs(authStore);
+
+async function logMovie(selectedMovie: movie) {
+  const body: TLogBody = {
     rating: selectedRating.value,
-    hadWatchBefore: watchBefore.value,
+    review: review.value,
+    contain_spoilers: false,
+    had_watched_before: watchBefore.value,
+    like: like.value,
+    movie_watched_date: new Date(),
+    movieId: selectedMovie.id,
+    movie: {
+      id: selectedMovie.id,
+      name: selectedMovie.title,
+      poster: selectedMovie.poster,
+      year: selectedMovie.release_date,
+    },
+  };
+  const { status } = await api.post("/log", body, {
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
   });
+
+  console.log(status);
 }
 
 function likeToggle() {
