@@ -1,4 +1,4 @@
-import { TCreateLogRepo, TLogRepository, TUpdateLog } from "../types/logs.types";
+import { TCreateLogRepo, TLogRepository, TLogWithMovies, TUpdateLog } from "../types/logs.types";
 import { prisma } from "@shared/prisma/prismaClient";
 import { PrismaClient, Log } from "@prisma/client";
 
@@ -38,7 +38,7 @@ export class LogRepository implements TLogRepository {
     return log;
   }
 
-  public async findAllByUserId(userId: string): Promise<Log[]> {
+  public async findAllByUserId(userId: string): Promise<TLogWithMovies[]> {
     const logsByUser = await this.prismaClient.log.findMany({
       where: {
         userId,
