@@ -4,7 +4,7 @@ export type TLogRepository = {
   save: (log: TCreateLogRepo) => Promise<Log>;
   update: (id: string, payload: TUpdateLog) => Promise<Log>;
   findById: (id: string) => Promise<Log | null>;
-  findAllByUserId: (id: string) => Promise<Log[]>;
+  findAllByUserId: (id: string) => Promise<TLogWithMovies[]>;
   findAll: () => Promise<Log[]>;
   remove: (id: string) => Promise<void>;
 };
@@ -16,6 +16,10 @@ export type TUpdateLog = Partial<Omit<Log, "id">>;
 export type TCreateLogService = Omit<Log, "id" | "created_at" | "updated_at"> & { movie: Movie };
 
 export type TLogBody = Omit<TCreateLogService, "userId"> & { movie: Movie };
+
+export type TLogWithMovies = TCreateLogService & {
+  movie: Movie;
+};
 
 export type TLogsResponse<T> = {
   data: T;
