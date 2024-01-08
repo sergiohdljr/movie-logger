@@ -15,8 +15,10 @@ function controlModal() {
       color="#019319"
       class="text-uppercase"
       @click="controlModal"
-      text="Log"
+      density="compact"
     >
+      <v-icon icon="mdi-plus"></v-icon>
+      LOG
     </v-btn>
 
     <v-dialog v-model="isActive" width="500">

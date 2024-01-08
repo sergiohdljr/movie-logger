@@ -29,10 +29,15 @@ function logout() {
           </div>
         </v-col>
         <v-col cols="12" md="6" class="d-flex justify-center md:justify-end">
-          <div class="d-flex ga-4">
+          <div class="d-flex align-center ga-4">
             <log-movie-dialog />
-            <v-btn color="red" class="text-uppercase" @click="logout">
-              logout
+            <v-btn
+              density="compact"
+              color="red"
+              class="text-subtitle-1 border border-outlined"
+              @click="logout"
+            >
+              Sign-out
             </v-btn>
           </div>
         </v-col>
