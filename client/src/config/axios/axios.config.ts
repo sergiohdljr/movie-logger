@@ -7,3 +7,7 @@ export const ApiTmdb = axios.create({
 export const api = axios.create({
   baseURL: "http://localhost:8080/",
 });
+
+export type TAxiosTypedReturn<T> = {
+  data: T;
+};
