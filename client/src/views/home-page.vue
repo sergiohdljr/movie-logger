@@ -3,12 +3,12 @@ import { onMounted } from "vue";
 import navBar from "../components/nav-bar.vue";
 import { api } from "../config/axios/axios.config";
 import { ref } from "vue";
-import { useAuthStore } from "../store/auth";
 import { storeToRefs } from "pinia";
 import ProfileCard from "../components/profile-card.vue";
 import ButtonsNavigation from "../components/buttons-navigation.vue";
 import { Ref } from "vue";
 import MoviesLogList from "../components/movies-log-list.vue";
+import { useAuthStore } from "../store/api/auth";
 
 type Movie = {
   id: number;
@@ -78,3 +78,4 @@ onMounted(async () => {
   cursor: pointer;
 }
 </style>
+../store/api/auth

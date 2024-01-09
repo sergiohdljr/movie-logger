@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import homePageVue from "../views/home-page.vue";
 import loginPageVue from "../views/login-page.vue";
-import { useAuthStore } from "../store/auth";
+import { useAuthStore } from "../store/api/auth";
 
 const routes = [
   {

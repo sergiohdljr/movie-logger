@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ref } from "vue";
-import { useAuthStore } from "../store/auth";
 import { storeToRefs } from "pinia";
 import { api } from "../config/axios/axios.config";
+import { useAuthStore } from "../store/api/auth";
 
 defineProps<{
   selectedMovie: {
@@ -145,3 +145,4 @@ function setRating(rating: number) {
     </v-row>
   </v-card>
 </template>
+../store/api/auth

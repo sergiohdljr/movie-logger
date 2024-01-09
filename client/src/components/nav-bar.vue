@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from "../store/auth";
+import { useAuthStore } from "../store/api/auth";
 import logMovieDialog from "./log-movie-dialog.vue";
 
 defineProps<{
@@ -45,3 +45,4 @@ function logout() {
     </v-container>
   </header>
 </template>
+../store/api/auth

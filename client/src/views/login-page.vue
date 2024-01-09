@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { ref } from "vue";
-import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import { useAuthStore } from "../store/api/auth";
 
 type LoginPayload = {
   email: string;
@@ -38,3 +38,4 @@ async function Login(payload: LoginPayload) {
     <v-btn type="submit" block class="mt-2" text="Submit"></v-btn>
   </v-form>
 </template>
+../store/api/auth
