@@ -17,7 +17,7 @@ export type TCreateLogService = Omit<Log, "id" | "created_at" | "updated_at"> & 
 
 export type TLogBody = Omit<TCreateLogService, "userId"> & { movie: Movie };
 
-export type TLogWithMovies = TCreateLogService & {
+export type TLogWithMovies = Log & {
   movie: Movie;
 };
 
