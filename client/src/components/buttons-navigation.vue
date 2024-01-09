@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const buttonsValues = ["Profile", "Films", "Diary"] as const;
+const buttonsValues = ["Films", "Diary"] as const;
+
+const emit = defineEmits(["selectState"]);
+
+function setState(state: string) {
+  emit("selectState", state);
+}
 </script>
 
 <template>
@@ -10,6 +16,7 @@ const buttonsValues = ["Profile", "Films", "Diary"] as const;
       variant="text"
       class="ma-2 text-subtitle-1 border border-outlined"
       label
+      @click="setState(btnText)"
     >
       {{ btnText }}</v-btn
     >
