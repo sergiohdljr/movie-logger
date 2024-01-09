@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { api } from "../../config/axios/axios.config";
-import { fa } from "vuetify/locale";
 
 type LoginPayload = {
   email: string;
