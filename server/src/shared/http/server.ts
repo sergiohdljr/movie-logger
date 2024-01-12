@@ -3,12 +3,15 @@ import "express-async-errors";
 import { router } from "./routes";
 import { AppError } from "@shared/errors/AppErros";
 import Cors from "cors";
+import * as dotenv from "dotenv";
 
 const app = Express();
 
+dotenv.config();
+app.use(Cors({ origin: "*" }));
 app.use(Express.json());
-app.use(Cors());
 app.use(router);
+
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
@@ -18,10 +21,10 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   }
   return res.status(500).json({
     status: "error",
-    message: "Internal Server Error",
+    message: error.message,
   });
 });
 
-app.listen(8080, () => {
-  console.log("server run");
+app.listen(process.env.PORT || 3333, () => {
+  console.log(`running on ${process.env.PORT}`);
 });
