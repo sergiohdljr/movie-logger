@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { api } from "../../config/axios/axios.config";
+import { useToast } from "@/components/ui/toast";
+import { AxiosError } from "axios";
 
 type LoginPayload = {
   email: string;
@@ -11,6 +13,7 @@ export const useAuthStore = defineStore("auth", () => {
   const user = ref();
   const isAuthenticated = ref(false);
   const token = ref(localStorage.getItem("token"));
+  const { toast } = useToast();
 
   async function signIn(payload: LoginPayload) {
     try {
@@ -19,7 +22,21 @@ export const useAuthStore = defineStore("auth", () => {
       isAuthenticated.value = true;
       localStorage.setItem("token", data.token);
       token.value = localStorage.getItem("token");
-    } catch (error) {}
+      toast({
+        title: `Bem vindo ${data.name}`,
+        description: "Login Realizado com Sucesso!",
+        variant: "default",
+        class: "bg-green-500",
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast({
+          title: "Login Error",
+          description: error.response?.data.message,
+          variant: "destructive",
+        });
+      }
+    }
   }
 
   function checkAuthentication() {
