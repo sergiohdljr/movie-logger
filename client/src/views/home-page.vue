@@ -35,12 +35,6 @@ function setRenderState(value: string) {
 </script>
 <template>
   <nav-bar :user="profile" />
-  <profile-card :user="profile" />
-  <buttons-navigation @select-state="setRenderState" />
-  <div>
-    <movies-log-list v-if="renderState === `Films`" :logs-list="moviesLogged" />
-    <diary-movie v-else />
-  </div>
 </template>
 
 <style>

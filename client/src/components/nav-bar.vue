@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../store/api/auth";
 import logMovieDialog from "./log-movie-dialog.vue";
+import { Button } from "./ui/button";
 
 defineProps<{
   user: {
@@ -9,40 +11,29 @@ defineProps<{
   };
 }>();
 
-const authStore = useAuthStore();
+const { logout } = useAuthStore();
+const router = useRouter();
 
-function logout() {
-  authStore.logout();
+function Signout() {
+  logout();
+  router.push("/login");
 }
 </script>
 
 <template>
-  <header class="d-flex justify-center">
-    <v-container class="w-100" fluid>
-      <v-row>
-        <v-col cols="12" md="6" class="d-flex justify-center md:justify-start">
-          <div class="d-flex ga-4">
-            <v-avatar :image="user.avatar"></v-avatar>
-            <h3 class="text-uppercase d-flex align-center">
-              {{ user.username }}
-            </h3>
-          </div>
-        </v-col>
-        <v-col cols="12" md="6" class="d-flex justify-center md:justify-end">
-          <div class="d-flex align-center ga-4">
-            <log-movie-dialog />
-            <v-btn
-              density="compact"
-              color="red"
-              class="text-subtitle-1 border border-outlined"
-              @click="logout"
-            >
-              Sign-out
-            </v-btn>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </header>
+  <nav class="w-full flex-col gap-2 h-36 sm:w-4/5 sm:flex-row sm:h-32 flex">
+    <header class="flex flex-grow items-center flex-col gap-2 sm:flex-row">
+      <picture class="w-20 h-20">
+        <img
+          class="w-full h-full rounded-full outline cursor-pointer"
+          :src="user.avatar"
+        />
+      </picture>
+      <h3 class="text-lg font-semibold">{{ user.username }}</h3>
+    </header>
+    <div class="flex items-center justify-center sm:justify-normal gap-3">
+      <Button>Log</Button>
+      <Button variant="destructive" :onclick="Signout">Sign out</Button>
+    </div>
+  </nav>
 </template>
-../store/api/auth
