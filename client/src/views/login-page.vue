@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "vee-validate";
+import { useAuthStore } from "@/store/api/auth";
+import { useRouter } from "vue-router";
 
 const formSchema = toTypedSchema(
   z.object({
@@ -24,9 +26,13 @@ const { handleSubmit } = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = handleSubmit((payload) =>
-  console.log("Form submitted!", payload)
-);
+const { signIn } = useAuthStore();
+const route = useRouter();
+
+const onSubmit = handleSubmit(async ({ email, password }) => {
+  await signIn({ email, password });
+  route.push("/");
+});
 </script>
 
 <template>
@@ -47,7 +53,7 @@ const onSubmit = handleSubmit((payload) =>
       </FormField>
       <FormField v-slot="{ componentField }" name="password">
         <FormItem>
-          <FormLabel>password</FormLabel>
+          <FormLabel>Password</FormLabel>
           <FormControl>
             <Input
               class="bg-transparent"
