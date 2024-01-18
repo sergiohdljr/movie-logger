@@ -1,38 +1,64 @@
 <script setup lang="ts">
-import { Ref } from "vue";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { useAuthStore } from "../store/api/auth";
 import { Button } from "@/components/ui/button";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "vee-validate";
 
-type LoginPayload = {
-  email: string;
-  password: string;
-};
+const formSchema = toTypedSchema(
+  z.object({
+    email: z.string().email(),
+    password: z.string(),
+  })
+);
 
-const authStore = useAuthStore();
-const { token } = storeToRefs(authStore);
-const router = useRouter();
-const email: Ref<string> = ref("");
-const password: Ref<string> = ref("");
+const { handleSubmit } = useForm({
+  validationSchema: formSchema,
+});
 
-async function Login(payload: LoginPayload) {
-  try {
-    await authStore.signIn(payload);
-    router.push("/");
-  } catch (error) {
-    throw new Error("login error");
-  }
-
-  console.log(token);
-
-  email.value = "";
-  password.value = "";
-}
+const onSubmit = handleSubmit((payload) =>
+  console.log("Form submitted!", payload)
+);
 </script>
 
 <template>
-  <h2>hello</h2>
-  <Button variant="outline" class="bg-blue-500">hey</Button>
+  <div class="flex justify-center items-center w-screen h-screen">
+    <form class="w-96 flex flex-col gap-4" @submit="onSubmit">
+      <FormField v-slot="{ componentField }" name="email">
+        <FormItem>
+          <FormLabel>E-mail</FormLabel>
+          <FormControl>
+            <Input
+              class="bg-transparent"
+              placeholder="email"
+              v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <FormField v-slot="{ componentField }" name="password">
+        <FormItem>
+          <FormLabel>password</FormLabel>
+          <FormControl>
+            <Input
+              class="bg-transparent"
+              placeholder="*******"
+              v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <Button type="submit" class="bg-green-950">Login</Button>
+    </form>
+  </div>
 </template>

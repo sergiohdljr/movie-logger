@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <router-view />
+  <div class="container h-screen flex justify-center items-center">
+    <router-view />
+  </div>
 </template>
