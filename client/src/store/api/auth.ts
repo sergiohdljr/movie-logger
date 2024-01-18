@@ -26,7 +26,8 @@ export const useAuthStore = defineStore("auth", () => {
         title: `Bem vindo ${data.name}`,
         description: "Login Realizado com Sucesso!",
         variant: "default",
-        class: "bg-green-500",
+        class: "bg-green-500 h-12",
+        duration: 3000,
       });
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -34,6 +35,8 @@ export const useAuthStore = defineStore("auth", () => {
           title: "Login Error",
           description: error.response?.data.message,
           variant: "destructive",
+          class: "h-12",
+          duration: 3000,
         });
       }
     }
