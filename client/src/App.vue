@@ -3,8 +3,8 @@ import { Toaster } from "@/components/ui/toast";
 </script>
 
 <template>
-  <div class="container h-screen flex justify-center items-center">
+  <div class="container h-screen flex justify-center pt-8">
     <router-view />
-    <toaster />
   </div>
+  <toaster />
 </template>
