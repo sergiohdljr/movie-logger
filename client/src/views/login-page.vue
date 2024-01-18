@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../store/api/auth";
+import { Button } from "@/components/ui/button";
 
 type LoginPayload = {
   email: string;
@@ -32,10 +33,6 @@ async function Login(payload: LoginPayload) {
 </script>
 
 <template>
-  <v-form @submit.prevent="Login({ email, password })">
-    <v-text-field v-model="email" label="email"></v-text-field>
-    <v-text-field v-model="password" label="password"></v-text-field>
-    <v-btn type="submit" block class="mt-2" text="Submit"></v-btn>
-  </v-form>
+  <h2>hello</h2>
+  <Button variant="outline" class="bg-blue-500">hey</Button>
 </template>
-../store/api/auth
