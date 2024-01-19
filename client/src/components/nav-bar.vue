@@ -23,7 +23,7 @@ function Signout() {
 <template>
   <nav class="w-full flex-col gap-2 h-36 sm:w-4/5 sm:flex-row sm:h-32 flex">
     <header class="flex flex-grow items-center flex-col gap-2 sm:flex-row">
-      <picture class="w-20 h-20">
+      <picture class="w-7 h-7">
         <img
           class="w-full h-full rounded-full outline cursor-pointer"
           :src="user.avatar"
