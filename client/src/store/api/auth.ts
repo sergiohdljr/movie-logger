@@ -23,10 +23,10 @@ export const useAuthStore = defineStore("auth", () => {
       localStorage.setItem("token", data.token);
       token.value = localStorage.getItem("token");
       toast({
-        title: `Bem vindo ${data.name}`,
+        title: `Bem vindo ${data.data.user.name}`,
         description: "Login Realizado com Sucesso!",
         variant: "default",
-        class: "bg-green-500 h-12",
+        class: "bg-green-500 h-12 text-white",
         duration: 3000,
       });
     } catch (error) {
