@@ -10,8 +10,7 @@ import { useMovies } from "../store/api/movies";
 import { useUserProfile } from "../store/api/user";
 import { ref } from "vue";
 
-const imagePlaceholder =
-  "https://a.ltrbxd.com/resized/avatar/upload/1/8/1/7/1/0/5/shard/avtr-0-220-0-220-crop.jpg?v=76021be444";
+const imageUrlBase = "http://localhost:8081/files/";
 
 const movieStore = useMovies();
 const { moviesLogged } = storeToRefs(movieStore);
@@ -25,7 +24,7 @@ onMounted(async () => {
     userProfileStore.getProfile(),
   ]);
 
-  profile.value.avatar = imagePlaceholder;
+  profile.value.avatar = `${imageUrlBase}/${profile.value.avatar}`;
 });
 
 const renderState = ref("Films");
@@ -35,6 +34,7 @@ function setRenderState(value: string) {
 </script>
 <template>
   <nav-bar :user="profile" />
+  <profile-card :user="profile" />
 </template>
 
 <style>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import Button from "@/components/ui/button/Button.vue";
+
 defineProps<{
   user: {
     avatar: string;
@@ -8,29 +11,30 @@ defineProps<{
 </script>
 
 <template>
-  <v-card
-    class="mx-auto d-flex pa-5 border border-outlined"
-    color="transparent"
-    rounded="20%"
-  >
-    <v-avatar color="grey" size="80" rounded="50%">
-      <v-img cover :src="user.avatar"></v-img>
-    </v-avatar>
-    <div
-      class="d-flex flex-column flex-md-row justify-space-between align-center mt-3 mt-md-0"
+  <Card class="w-full h-auto flex items-center justify-between p-2">
+    <CardContent class="p-0 flex items-center gap-2 flex-wrap">
+      <picture class="w-32 h-32 flex">
+        <img
+          class="w-full h-full rounded-full"
+          :src="user.avatar"
+          alt=""
+          srcset=""
+        />
+      </picture>
+      <h2 class="font-medium text-2xl">{{ user.name }}</h2>
+      <Button>edit profile</Button>
+    </CardContent>
+    <CardFooter
+      class="hidden w-32 h-full sm:flex justify-between items-center gap-2 p-0"
     >
-      <v-card-title
-        class="d-flex align-center text-h5 font-weight-black mb-3 mb-md-0"
-        >{{ user.name }}</v-card-title
-      >
-      <v-btn
-        density="compact"
-        color="#4a5968"
-        class="text-subtitle-1 font-weight-black mt-3 mt-md-0"
-        >Edit profile</v-btn
-      >
-    </div>
-  </v-card>
+      <div class="flex flex-col items-center">
+        <h1 class="font-medium text-lg">54</h1>
+        <span class="text-sm uppercase">Films</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <h1 class="font-medium text-lg">54</h1>
+        <span class="text-sm uppercase">This Year</span>
+      </div>
+    </CardFooter>
+  </Card>
 </template>
-
-<style scoped></style>
