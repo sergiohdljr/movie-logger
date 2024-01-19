@@ -4,12 +4,14 @@ import { router } from "./routes";
 import { AppError } from "@shared/errors/AppErros";
 import Cors from "cors";
 import * as dotenv from "dotenv";
+import upload from "@config/upload";
 
 const app = Express();
 
 dotenv.config();
 app.use(Cors({ origin: "*" }));
 app.use(Express.json());
+app.use("/files", Express.static(upload.directoy));
 app.use(router);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
