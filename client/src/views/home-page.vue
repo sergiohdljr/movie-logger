@@ -9,14 +9,15 @@ import diaryMovie from "../components/diary-movie.vue";
 import { useMovies } from "../store/api/movies";
 import { useUserProfile } from "../store/api/user";
 import { ref } from "vue";
+import { watch } from "vue";
+import { useRoute } from "vue-router";
 
 const imageUrlBase = "http://localhost:8081/files/";
-
 const movieStore = useMovies();
 const { moviesLogged } = storeToRefs(movieStore);
-
 const userProfileStore = useUserProfile();
 const { profile } = storeToRefs(userProfileStore);
+const route = useRoute();
 
 onMounted(async () => {
   await Promise.all([
@@ -28,19 +29,19 @@ onMounted(async () => {
 });
 
 const renderState = ref("Films");
-function setRenderState(value: string) {
-  renderState.value = value;
-}
+watch(
+  () => route.query.render,
+  (newState) => {
+    renderState.value = newState as string;
+  }
+);
 </script>
 <template>
   <nav-bar :user="profile" />
   <profile-card :user="profile" />
+  <buttons-navigation />
+  <div>
+    <p v-if="renderState === 'Films'">films</p>
+    <p v-else>diary</p>
+  </div>
 </template>
-
-<style>
-.card-hover:hover {
-  border: 2px solid green;
-  border-radius: 0.3rem;
-  cursor: pointer;
-}
-</style>
