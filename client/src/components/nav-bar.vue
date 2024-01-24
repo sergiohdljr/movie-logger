@@ -32,7 +32,7 @@ function Signout() {
       <h3 class="text-lg font-semibold">{{ user.username }}</h3>
     </header>
     <div class="flex items-center justify-center sm:justify-normal gap-3">
-      <Button>Log</Button>
+      <logMovieDialog />
       <Button variant="destructive" :onclick="Signout">Sign out</Button>
     </div>
   </nav>

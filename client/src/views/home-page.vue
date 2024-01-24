@@ -20,12 +20,10 @@ const { profile } = storeToRefs(userProfileStore);
 const route = useRoute();
 
 onMounted(async () => {
-  await Promise.all([
-    movieStore.getLoggedMovies(),
-    userProfileStore.getProfile(),
-  ]);
+  await userProfileStore.getProfile(),
+    (profile.value.avatar = `${imageUrlBase}/${profile.value.avatar}`);
 
-  profile.value.avatar = `${imageUrlBase}/${profile.value.avatar}`;
+  await movieStore.getLoggedMovies();
 });
 
 const renderState = ref("Films");
