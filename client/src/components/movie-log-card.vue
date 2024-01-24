@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import { AlignLeft } from "lucide-vue-next";
+import { RefreshCw } from "lucide-vue-next";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 type Movie = {
   id: number;
   name: string;
@@ -27,21 +36,35 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mt-2 pa-1 text-left d-flex flex-column align-center">
-    <v-card width="90" height="135">
-      <v-img
-        class="card-hover"
-        :src="log.movie.poster"
-        style="width: 100%; height: 100%"
-      ></v-img>
-    </v-card>
-    <div class="d-flex align-items-center justify-space-between mt-2">
-      <div class="d-flex justify-space-between">
-        <span v-for="_ in log.rating">★</span>
-      </div>
-      <span v-if="log.like" class="ml-2" style="font-size: 1em"
-        >&#10084;&#65039;</span
-      >
-    </div>
-  </div>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger>
+        <article
+          class="w-32 h-44 outline outline-1 outline-green-900 rounded-sm p-1 cursor-pointer"
+        >
+          <picture class="flex w-full h-5/6">
+            <img
+              class="w-full h-full"
+              :src="log.movie.poster"
+              alt=""
+              srcset=""
+            />
+          </picture>
+          <div class="flex items-center justify-between">
+            <div>
+              <span v-for="_ in log.rating">★</span>
+            </div>
+            <div class="flex gap-1 items-center">
+              <AlignLeft v-if="log.review.length > 0" :size="12" />
+              <span v-if="log.like" class="text-xs">&#10084;&#65039;</span>
+              <RefreshCw v-if="log.had_watched_before" :size="12" />
+            </div>
+          </div>
+        </article>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{{ log.movie.name }}({{ log.movie.year.split("-")[0] }})</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 </template>
