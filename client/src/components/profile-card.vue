@@ -7,6 +7,8 @@ defineProps<{
     avatar: string;
     name: string;
   };
+
+  films: number;
 }>();
 </script>
 
@@ -28,11 +30,11 @@ defineProps<{
       class="hidden w-32 h-full sm:flex justify-between items-center gap-2 p-0"
     >
       <div class="flex flex-col items-center">
-        <h1 class="font-medium text-lg">54</h1>
+        <h1 class="font-medium text-lg">{{ films }}</h1>
         <span class="text-sm uppercase">Films</span>
       </div>
       <div class="flex flex-col items-center">
-        <h1 class="font-medium text-lg">54</h1>
+        <h1 class="font-medium text-lg">{{ films }}</h1>
         <span class="text-sm uppercase">This Year</span>
       </div>
     </CardFooter>

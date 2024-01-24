@@ -4,8 +4,6 @@ import navBar from "../components/nav-bar.vue";
 import { storeToRefs } from "pinia";
 import ProfileCard from "../components/profile-card.vue";
 import ButtonsNavigation from "../components/buttons-navigation.vue";
-import MoviesLogList from "../components/movies-log-list.vue";
-import diaryMovie from "../components/diary-movie.vue";
 import { useMovies } from "../store/api/movies";
 import { useUserProfile } from "../store/api/user";
 import { ref } from "vue";
@@ -36,7 +34,7 @@ watch(
 </script>
 <template>
   <nav-bar :user="profile" />
-  <profile-card :user="profile" />
+  <profile-card :user="profile" :films="moviesLogged.length" />
   <buttons-navigation />
   <div>
     <p v-if="renderState === 'Films'">films</p>
