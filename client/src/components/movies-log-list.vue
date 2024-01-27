@@ -30,15 +30,9 @@ defineProps<{
 
 <template>
   <div
-    class="mt-2 pa-1 text-left border border-outlined d-flex flex-column align-center"
+    class="w-full h-auto p-3 outline outline-1 flex gap-1 justify-between flex-wrap"
   >
-    <v-container>
-      <v-row>
-        <v-col v-for="log in logsList" :key="log.id" cols="2">
-          <movie-log-card :log="log" />
-        </v-col>
-      </v-row>
-    </v-container>
+    <movie-log-card v-for="log in logsList" :log="log" />
   </div>
 </template>
 

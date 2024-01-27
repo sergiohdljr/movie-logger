@@ -1,41 +1,70 @@
 <script setup lang="ts">
-import { Ref } from "vue";
-import { ref } from "vue";
+import { Button } from "@/components/ui/button";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "vee-validate";
+import { useAuthStore } from "@/store/api/auth";
 import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { useAuthStore } from "../store/api/auth";
 
-type LoginPayload = {
-  email: string;
-  password: string;
-};
+const formSchema = toTypedSchema(
+  z.object({
+    email: z.string().email(),
+    password: z.string(),
+  })
+);
 
-const authStore = useAuthStore();
-const { token } = storeToRefs(authStore);
-const router = useRouter();
-const email: Ref<string> = ref("");
-const password: Ref<string> = ref("");
+const { handleSubmit } = useForm({
+  validationSchema: formSchema,
+});
 
-async function Login(payload: LoginPayload) {
-  try {
-    await authStore.signIn(payload);
-    router.push("/");
-  } catch (error) {
-    throw new Error("login error");
-  }
+const { signIn } = useAuthStore();
+const route = useRouter();
 
-  console.log(token);
-
-  email.value = "";
-  password.value = "";
-}
+const onSubmit = handleSubmit(async ({ email, password }) => {
+  await signIn({ email, password });
+  route.push("/");
+});
 </script>
 
 <template>
-  <v-form @submit.prevent="Login({ email, password })">
-    <v-text-field v-model="email" label="email"></v-text-field>
-    <v-text-field v-model="password" label="password"></v-text-field>
-    <v-btn type="submit" block class="mt-2" text="Submit"></v-btn>
-  </v-form>
+  <div class="flex justify-center items-center w-screen h-screen">
+    <form class="w-96 flex flex-col gap-4" @submit="onSubmit">
+      <FormField v-slot="{ componentField }" name="email">
+        <FormItem>
+          <FormLabel>E-mail</FormLabel>
+          <FormControl>
+            <Input
+              class="bg-transparent"
+              placeholder="email"
+              v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <FormField v-slot="{ componentField }" name="password">
+        <FormItem>
+          <FormLabel>Password</FormLabel>
+          <FormControl>
+            <Input
+              class="bg-transparent"
+              placeholder="*******"
+              v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <Button type="submit" class="bg-green-950">Login</Button>
+    </form>
+  </div>
 </template>
-../store/api/auth

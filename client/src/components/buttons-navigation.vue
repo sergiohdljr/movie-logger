@@ -1,25 +1,26 @@
 <script setup lang="ts">
-const buttonsValues = ["Films", "Diary"] as const;
+import { useRouter } from "vue-router";
+import { Button } from "./ui/button";
 
-const emit = defineEmits(["selectState"]);
+const buttonsValues = ["Films", "Diary"] as const;
+const route = useRouter();
 
 function setState(state: string) {
-  emit("selectState", state);
+  route.push({ query: { render: state } });
 }
 </script>
 
 <template>
-  <div class="mt-2 pa-1 text-left border border-outlined">
-    <v-btn
+  <div class="w-full h-auto flex gap-2">
+    <Button
       v-for="(btnText, i) in buttonsValues"
       :key="i"
-      variant="text"
-      class="ma-2 text-subtitle-1 border border-outlined"
-      label
+      variant="ghost"
+      class="uppercase"
       @click="setState(btnText)"
     >
-      {{ btnText }}</v-btn
-    >
+      {{ btnText }}
+    </Button>
   </div>
 </template>
 

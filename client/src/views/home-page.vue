@@ -3,50 +3,41 @@ import { onMounted } from "vue";
 import navBar from "../components/nav-bar.vue";
 import { storeToRefs } from "pinia";
 import ProfileCard from "../components/profile-card.vue";
+import moviesLogList from "@/components/movies-log-list.vue";
 import ButtonsNavigation from "../components/buttons-navigation.vue";
-import MoviesLogList from "../components/movies-log-list.vue";
-import diaryMovie from "../components/diary-movie.vue";
 import { useMovies } from "../store/api/movies";
 import { useUserProfile } from "../store/api/user";
 import { ref } from "vue";
+import { watch } from "vue";
+import { useRoute } from "vue-router";
 
-const imagePlaceholder =
-  "https://a.ltrbxd.com/resized/avatar/upload/1/8/1/7/1/0/5/shard/avtr-0-220-0-220-crop.jpg?v=76021be444";
-
+const imageUrlBase = "http://localhost:8081/files/";
 const movieStore = useMovies();
 const { moviesLogged } = storeToRefs(movieStore);
-
 const userProfileStore = useUserProfile();
 const { profile } = storeToRefs(userProfileStore);
+const route = useRoute();
 
 onMounted(async () => {
-  await Promise.all([
-    movieStore.getLoggedMovies(),
-    userProfileStore.getProfile(),
-  ]);
+  await userProfileStore.getProfile(),
+    (profile.value.avatar = `${imageUrlBase}/${profile.value.avatar}`);
 
-  profile.value.avatar = imagePlaceholder;
+  await movieStore.getLoggedMovies();
 });
 
 const renderState = ref("Films");
-function setRenderState(value: string) {
-  renderState.value = value;
-}
+watch(
+  () => route.query.render,
+  (newState) => {
+    renderState.value = newState as string;
+  }
+);
 </script>
 <template>
   <nav-bar :user="profile" />
-  <profile-card :user="profile" />
-  <buttons-navigation @select-state="setRenderState" />
-  <div>
-    <movies-log-list v-if="renderState === `Films`" :logs-list="moviesLogged" />
-    <diary-movie v-else />
-  </div>
-</template>
+  <profile-card :user="profile" :films="moviesLogged.length" />
+  <buttons-navigation />
 
-<style>
-.card-hover:hover {
-  border: 2px solid green;
-  border-radius: 0.3rem;
-  cursor: pointer;
-}
-</style>
+  <movies-log-list v-if="renderState === 'Films'" :logs-list="moviesLogged" />
+  <p v-else>diary</p>
+</template>
