@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import homePageVue from "../views/home-page.vue";
 import loginPageVue from "../views/login-page.vue";
 import { useAuthStore } from "../store/api/auth";
+import registerPageVue from "@/views/register-page.vue";
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     name: "Login",
     component: loginPageVue,
   },
+  {
+    path: "/register",
+    name: "register",
+    component: registerPageVue,
+  },
 ];
 
 const router = createRouter({
@@ -22,7 +28,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const authStore = useAuthStore();
 
   if (to.meta.requiresAuth && !authStore.checkAuthentication()) {
