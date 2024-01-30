@@ -38,32 +38,42 @@ defineProps<{
 <template>
   <TooltipProvider>
     <Tooltip>
-      <TooltipTrigger>
-        <article
-          class="w-32 h-44 outline outline-1 outline-green-900 rounded-sm p-1 cursor-pointer"
-        >
-          <picture class="flex w-full h-5/6">
+      <article class="w-[150px] h-[255px]">
+        <TooltipTrigger>
+          <picture class="flex w-full h-[92%] cursor-pointer">
             <img
-              class="w-full h-full"
+              class="w-full h-full rounded-[2px] hover:border-4 border-green"
               :src="log.movie.poster"
               alt=""
               srcset=""
             />
           </picture>
-          <div class="flex items-center justify-between">
-            <div>
-              <span v-for="_ in log.rating">★</span>
-            </div>
-            <div class="flex gap-1 items-center">
-              <AlignLeft v-if="log.review.length > 0" :size="12" />
-              <span v-if="log.like" class="text-xs">&#10084;&#65039;</span>
-              <RefreshCw v-if="log.had_watched_before" :size="12" />
-            </div>
+        </TooltipTrigger>
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-steel-blue" v-for="_ in log.rating">★</span>
           </div>
-        </article>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{{ log.movie.name }}({{ log.movie.year.split("-")[0] }})</p>
+          <div class="flex gap-1 items-center">
+            <AlignLeft
+              v-if="log.review.length > 0"
+              :size="12"
+              class="text-steel-blue"
+            />
+            <span v-if="log.like" class="text-xs text-steel-blue"
+              >&#10084;&#65039;</span
+            >
+            <RefreshCw
+              v-if="log.had_watched_before"
+              :size="12"
+              class="text-steel-blue"
+            />
+          </div>
+        </div>
+      </article>
+      <TooltipContent class="bg-steel-blue outline-none border-blue-200">
+        <p class="text-blue-200">
+          {{ log.movie.name }} ({{ log.movie.year.split("-")[0] }})
+        </p>
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>

@@ -29,9 +29,7 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="w-full h-auto p-3 outline outline-1 flex gap-1 justify-between flex-wrap"
-  >
+  <div class="w-full h-auto flex gap-1 justify-between flex-wrap">
     <movie-log-card v-for="log in logsList" :log="log" />
   </div>
 </template>

@@ -26,6 +26,7 @@ onMounted(async () => {
 });
 
 const renderState = ref("Films");
+
 watch(
   () => route.query.render,
   (newState) => {
@@ -38,6 +39,6 @@ watch(
   <profile-card :user="profile" :films="moviesLogged.length" />
   <buttons-navigation />
 
-  <movies-log-list v-if="renderState === 'Films'" :logs-list="moviesLogged" />
-  <p v-else>diary</p>
+  <p v-if="renderState === 'Diary'">diary</p>
+  <movies-log-list v-else :logs-list="moviesLogged" />
 </template>

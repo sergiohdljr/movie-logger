@@ -52,13 +52,15 @@ const onSubmit = handleSubmit(
     }, 1000);
   }
 );
+
+const linkToSignIn = () => router.push("/login");
 </script>
 
 <template>
   <div class="flex justify-center items-center w-screen h-screen">
-    <Card>
+    <Card class="bg-dark-slate-gray outilne outline-steel-blue">
       <CardHeader>
-        <CardTitle>SignUp</CardTitle>
+        <CardTitle class="text-steel-blue">Sign Up</CardTitle>
         <CardDescription
           >Make the sign-Up to start log your movies.</CardDescription
         >
@@ -67,10 +69,12 @@ const onSubmit = handleSubmit(
         <form class="w-96 flex flex-col gap-4" @submit="onSubmit">
           <FormField v-slot="{ componentField }" name="name">
             <FormItem>
-              <FormLabel>name</FormLabel>
+              <FormLabel>
+                <p class="text-steel-blue">name</p>
+              </FormLabel>
               <FormControl>
                 <Input
-                  class="bg-transparent"
+                  class="bg-[#e8f0fe]"
                   placeholder="name"
                   v-bind="componentField"
                 />
@@ -80,10 +84,12 @@ const onSubmit = handleSubmit(
           </FormField>
           <FormField v-slot="{ componentField }" name="username">
             <FormItem>
-              <FormLabel>username</FormLabel>
+              <FormLabel>
+                <p class="text-steel-blue">username</p>
+              </FormLabel>
               <FormControl>
                 <Input
-                  class="bg-transparent"
+                  class="bg-[#e8f0fe]"
                   placeholder="username"
                   v-bind="componentField"
                 />
@@ -93,10 +99,12 @@ const onSubmit = handleSubmit(
           </FormField>
           <FormField v-slot="{ componentField }" name="email">
             <FormItem>
-              <FormLabel>E-mail</FormLabel>
+              <FormLabel>
+                <p class="text-steel-blue">E-mail</p>
+              </FormLabel>
               <FormControl>
                 <Input
-                  class="bg-transparent"
+                  class="bg-[#e8f0fe]"
                   placeholder="email"
                   v-bind="componentField"
                 />
@@ -106,10 +114,12 @@ const onSubmit = handleSubmit(
           </FormField>
           <FormField v-slot="{ componentField }" name="password">
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>
+                <p class="text-steel-blue">password</p>
+              </FormLabel>
               <FormControl>
                 <Input
-                  class="bg-transparent"
+                  class="bg-[#e8f0fe]"
                   placeholder="*******"
                   v-bind="componentField"
                 />
@@ -117,13 +127,22 @@ const onSubmit = handleSubmit(
               <FormMessage />
             </FormItem>
           </FormField>
-          <Button type="submit" class="bg-green-950">
+          <Button
+            type="submit"
+            class="bg-green hover:bg-opacity-80 hover:bg-green"
+          >
             <Loader
               v-if="singUpLoading"
               class="animate-spin transition-all ease-linear"
             />
             <span v-else>Register</span>
           </Button>
+          <Button
+            variant="link"
+            class="text-steel-blue hover:text-blue-500"
+            @click="linkToSignIn"
+            >Sign In</Button
+          >
         </form>
       </CardContent>
     </Card>

@@ -15,7 +15,8 @@ import { UseMovieSearch } from "@/composables/movies";
 import { Star, Heart } from "lucide-vue-next";
 import { useLogMovie } from "@/store/api/logMovie";
 
-const { getMovies, movies, selectMovie, movieSelected } = UseMovieSearch();
+const { getMovies, movies, selectMovie, movieSelected, clearSearch } =
+  UseMovieSearch();
 const { logMovie } = useLogMovie();
 
 const liked = ref<boolean>(false);
@@ -57,19 +58,29 @@ const logMovieSelected = async () => {
 
   isOpen.value = false;
 };
+
+const openModal = () => {
+  clearSearch();
+  isOpen.value = !isOpen.value;
+  searchValue.value = "";
+};
 </script>
 
 <template>
   <AlertDialog :open="isOpen">
-    <AlertDialogTrigger @click="() => (isOpen = !isOpen)"
+    <AlertDialogTrigger
+      class="h-7 p-2 flex justify-center items-center rounded-[3px] transform uppercase bg-green text-white font-medium"
+      @click="openModal"
       >+ Log</AlertDialogTrigger
     >
-    <AlertDialogContent v-if="!movieSelected">
+    <AlertDialogContent class="bg-steel-blue outline out" v-if="!movieSelected">
       <AlertDialogHeader>
-        <AlertDialogTitle>Select a movie: </AlertDialogTitle>
-        <DialogDescription
-          >Select a movie you had just watch.</DialogDescription
-        >
+        <AlertDialogTitle>
+          <p class="text-white">Select a movie:</p>
+        </AlertDialogTitle>
+        <DialogDescription>
+          <p class="text-white">Select a movie you had just watch.</p>
+        </DialogDescription>
       </AlertDialogHeader>
       <div>
         <Input
@@ -77,18 +88,23 @@ const logMovieSelected = async () => {
           :onchange="getMovies(searchValue)"
           placeholder="movie name"
         ></Input>
-        <ul class="p-2" v-if="movies.length > 0">
-          <li v-for="movie in movies" @click="selectMovie(movie)">
-            {{ movie.title }} {{ movie.release_date }}
+        <ul class="bg-white rounded-md text-black" v-if="movies.length > 0">
+          <li
+            v-for="movie in movies"
+            @click="selectMovie(movie)"
+            class="p-1 cursor-pointer hover:bg-green hover:text-white"
+          >
+            {{ movie.title }} ({{ movie.release_date.split("-")[0] }})
           </li>
         </ul>
       </div>
       <AlertDialogFooter>
-        <Button>Search</Button>
-        <AlertDialogCancel class="m-0">Cancel</AlertDialogCancel>
+        <AlertDialogCancel class="m-0" @click="() => (isOpen = !isOpen)"
+          >Cancel</AlertDialogCancel
+        >
       </AlertDialogFooter>
     </AlertDialogContent>
-    <AlertDialogContent v-else>
+    <AlertDialogContent v-else class="bg-steel-blue outline out">
       <AlertDialogHeader>
         <AlertDialogTitle>{{ movieSelected.title }}</AlertDialogTitle>
       </AlertDialogHeader>
@@ -147,8 +163,16 @@ const logMovieSelected = async () => {
         </div>
       </div>
       <AlertDialogFooter class="flex p-0 items-center">
-        <button @click="logMovieSelected">Log</button>
-        <AlertDialogCancel class="m-0">Cancel</AlertDialogCancel>
+        <Button
+          @click="logMovieSelected"
+          class="h-7 p-2 flex justify-center items-center rounded-[3px] transform uppercase outline outline-1 outline-white bg-green text-white font-medium hover:bg-green hover:text-white"
+          >Log</Button
+        >
+        <Button
+          class="m-0 h-7 rounded-[3px] transform uppercase bg-red-600 text-white hover:bg-red-600 hover:bg-opacity-80 hover:text-white"
+          @click="() => (isOpen = !isOpen)"
+          >Cancel</Button
+        >
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
