@@ -61,7 +61,9 @@ const logMovieSelected = async () => {
 
 <template>
   <AlertDialog :open="isOpen">
-    <AlertDialogTrigger @click="() => (isOpen = !isOpen)"
+    <AlertDialogTrigger
+      class="h-7 p-2 flex justify-center items-center rounded-[3px] transform uppercase bg-green text-white font-medium"
+      @click="() => (isOpen = !isOpen)"
       >+ Log</AlertDialogTrigger
     >
     <AlertDialogContent v-if="!movieSelected">

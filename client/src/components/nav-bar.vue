@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/api/auth";
 import logMovieDialog from "./log-movie-dialog.vue";
 import { Button } from "./ui/button";
@@ -25,15 +25,22 @@ function Signout() {
     <header class="flex flex-grow items-center flex-col gap-2 sm:flex-row">
       <picture class="w-7 h-7">
         <img
-          class="w-full h-full rounded-full outline cursor-pointer"
+          class="w-full h-full rounded-full outline outline-1 outline-steel-blue cursor-pointer"
           :src="user.avatar"
         />
       </picture>
-      <h3 class="text-lg font-semibold">{{ user.username }}</h3>
+      <h3 class="text-steel-blue text-sm font-semibold transform uppercase">
+        {{ user.username }}
+      </h3>
     </header>
     <div class="flex items-center justify-center sm:justify-normal gap-3">
       <logMovieDialog />
-      <Button variant="destructive" :onclick="Signout">Sign out</Button>
+      <Button
+        class="h-7 rounded-[3px] transform uppercase"
+        variant="destructive"
+        :onclick="Signout"
+        >Sign out</Button
+      >
     </div>
   </nav>
 </template>
