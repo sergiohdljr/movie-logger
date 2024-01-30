@@ -47,25 +47,29 @@ const onSubmit = handleSubmit(async ({ email, password }) => {
     singInLoading.value = false;
   }, 1000);
 });
+
+const linkToCreateAccout = () => route.push("/register");
 </script>
 
 <template>
   <div class="flex justify-center items-center w-screen h-screen">
-    <Card>
+    <Card class="bg-dark-slate-gray outilne outline-steel-blue">
       <CardHeader>
-        <CardTitle>SignIn</CardTitle>
+        <CardTitle class="text-steel-blue">Sign In</CardTitle>
         <CardDescription
-          >Make the signIn to start log your movies.</CardDescription
+          >Make the sign In to start log your movies.</CardDescription
         >
       </CardHeader>
       <CardContent>
         <form class="w-96 flex flex-col gap-4" @submit="onSubmit">
           <FormField v-slot="{ componentField }" name="email">
             <FormItem>
-              <FormLabel>E-mail</FormLabel>
+              <FormLabel>
+                <p class="text-steel-blue">E-mail</p>
+              </FormLabel>
               <FormControl>
                 <Input
-                  class="bg-transparent"
+                  class="bg-[#e8f0fe]"
                   placeholder="email"
                   v-bind="componentField"
                 />
@@ -75,10 +79,12 @@ const onSubmit = handleSubmit(async ({ email, password }) => {
           </FormField>
           <FormField v-slot="{ componentField }" name="password">
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>
+                <p class="text-steel-blue">Password</p>
+              </FormLabel>
               <FormControl>
                 <Input
-                  class="bg-transparent"
+                  class="bg-[#e8f0fe]"
                   placeholder="*******"
                   v-bind="componentField"
                 />
@@ -86,13 +92,22 @@ const onSubmit = handleSubmit(async ({ email, password }) => {
               <FormMessage />
             </FormItem>
           </FormField>
-          <Button type="submit" class="bg-green-950">
+          <Button
+            type="submit"
+            class="bg-green hover:bg-opacity-80 hover:bg-green"
+          >
             <Loader
               v-if="singInLoading"
               class="animate-spin transition-all ease-linear"
             />
             <span v-else>Login</span>
           </Button>
+          <Button
+            variant="link"
+            class="text-steel-blue hover:text-blue-500"
+            @click="linkToCreateAccout"
+            >Create Account</Button
+          >
         </form>
       </CardContent>
     </Card>
