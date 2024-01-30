@@ -64,6 +64,7 @@ export function UseMovieSearch() {
 
   function clearSearch() {
     movies.value = [];
+    movieSelected.value = undefined;
   }
 
   function selectMovie(movie: movie) {
