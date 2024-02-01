@@ -29,9 +29,19 @@ defineProps<{
 </script>
 
 <template>
-  <div class="w-full h-auto flex gap-1 justify-between flex-wrap">
+  <div class="movies-grid">
     <movie-log-card v-for="log in logsList" :log="log" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.movies-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-rows: auto;
+  justify-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+</style>
