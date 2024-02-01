@@ -11,6 +11,10 @@ export class CreateLogService {
 
     const { movieId, userId, movie, ...logData } = log;
 
+    if (!userId) {
+      throw new AppError("Internal Server Error", 500);
+    }
+
     const user = await userRepository.findById(userId);
 
     if (!user) {
