@@ -64,6 +64,12 @@ const openModal = () => {
   isOpen.value = !isOpen.value;
   searchValue.value = "";
 };
+
+const searchMovies = async (search: string) => {
+  setTimeout(async () => {
+    await getMovies(search);
+  }, 1000);
+};
 </script>
 
 <template>
@@ -85,7 +91,7 @@ const openModal = () => {
       <div>
         <Input
           v-model="searchValue"
-          :onchange="getMovies(searchValue)"
+          :onchange="searchMovies(searchValue)"
           placeholder="movie name"
         ></Input>
         <ul class="bg-white rounded-md text-black" v-if="movies.length > 0">
