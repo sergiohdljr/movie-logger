@@ -7,6 +7,6 @@ import { Toaster } from "@/components/ui/toast";
     class="container bg-dark-slate-gray h-screen flex justify-start items-center flex-col gap-3 pt-8"
   >
     <router-view />
+    <toaster />
   </div>
-  <toaster />
 </template>

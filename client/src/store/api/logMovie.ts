@@ -38,8 +38,8 @@ export const useLogMovie = defineStore("logMovie", () => {
           title: `:)`,
           description: "Movie was logged with sucess!",
           variant: "default",
-          class: "bg-green-500 h-12 text-white",
-          duration: 3000,
+          class: "bg-green text-white",
+          duration: 2000,
         });
       }
     } catch (error) {
@@ -48,8 +48,7 @@ export const useLogMovie = defineStore("logMovie", () => {
           title: "Log Error",
           description: error.response?.data.message,
           variant: "destructive",
-          class: "h-12",
-          duration: 3000,
+          duration: 2000,
         });
       }
     }
