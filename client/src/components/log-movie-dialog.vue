@@ -13,11 +13,11 @@ import { Button } from "./ui/button";
 import { ref } from "vue";
 import { UseMovieSearch } from "@/composables/movies";
 import { Star, Heart } from "lucide-vue-next";
-import { useLogMovie } from "@/store/api/logMovie";
+import { useMovies } from "@/store/api/movies";
 
 const { getMovies, movies, selectMovie, movieSelected, clearSearch } =
   UseMovieSearch();
-const { logMovie } = useLogMovie();
+const { logMovie } = useMovies();
 
 const liked = ref<boolean>(false);
 const review = ref<string>("");
@@ -26,7 +26,6 @@ const contain_spoilers = ref<boolean>(false);
 const had_watched_before = ref<boolean>(false);
 
 const isOpen = ref<boolean>(false);
-
 const toggleLike = () => (liked.value = !liked.value);
 
 const searchValue = ref("");
