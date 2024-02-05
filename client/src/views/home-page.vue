@@ -12,8 +12,9 @@ import { watch } from "vue";
 import { useRoute } from "vue-router";
 
 const imageUrlBase = "http://localhost:8081/files/";
+
 const movieStore = useMovies();
-const { moviesLogged } = storeToRefs(movieStore);
+const { moviesLogged, totalMovies } = storeToRefs(movieStore);
 const userProfileStore = useUserProfile();
 const { profile } = storeToRefs(userProfileStore);
 const route = useRoute();
@@ -36,7 +37,7 @@ watch(
 </script>
 <template>
   <nav-bar :user="profile" />
-  <profile-card :user="profile" :films="moviesLogged.length" />
+  <profile-card :user="profile" :films="totalMovies" />
   <buttons-navigation />
 
   <p v-if="renderState === 'Diary'">diary</p>
