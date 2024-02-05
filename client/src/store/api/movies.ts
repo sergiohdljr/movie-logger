@@ -9,22 +9,35 @@ import { TLogBody, TLogMovie, TPaginationLogs } from "./types";
 export const useMovies = defineStore("movies", () => {
   const { token } = useAuthStore();
   const moviesLogged: Ref<TLogMovie[] | []> = ref([]);
-  const totalMovies = ref(0);
+  const paginationInfo = ref({
+    totalMovies: 0,
+    pages: 0,
+    actualPage: 1,
+  });
 
-  async function getLoggedMovies() {
+  async function getLoggedMovies(skip?: number) {
     try {
-      const { data } = await api.get<TPaginationLogs>("/log", {
+      const { data } = await api.get<TPaginationLogs>(`/log?skip=${skip}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const { data: logs, total: totalLogs } = data;
+      const { data: logs, total: totalLogs, actualPage, pages } = data;
 
       moviesLogged.value = logs;
-      totalMovies.value = totalLogs;
+      paginationInfo.value.totalMovies = totalLogs;
+      paginationInfo.value.actualPage = actualPage;
+      paginationInfo.value.pages = pages;
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError) {
+        toast({
+          title: "Error Load",
+          description: error.response?.data.message,
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
     }
   }
 
@@ -38,9 +51,10 @@ export const useMovies = defineStore("movies", () => {
 
       if (status === 200) {
         moviesLogged.value = [
-          ...moviesLogged.value,
           { ...data, movie: logMovie.movie },
+          ...moviesLogged.value,
         ];
+        moviesLogged.value.pop();
 
         toast({
           title: `:)`,
@@ -62,5 +76,5 @@ export const useMovies = defineStore("movies", () => {
     }
   }
 
-  return { moviesLogged, getLoggedMovies, logMovie, totalMovies };
+  return { moviesLogged, getLoggedMovies, logMovie, paginationInfo };
 });
