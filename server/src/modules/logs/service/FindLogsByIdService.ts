@@ -5,11 +5,11 @@ export class FindLogsByIdService {
   public async execute(id: string, skip: number): Promise<TLogsResponse<TLogWithMovies[]>> {
     const logRepository = new LogRepository();
 
-    const actualPage = skip + 1;
-
     if (!skip) {
       skip = 0;
     }
+
+    const actualPage = skip + 1;
 
     if (skip > 0) {
       skip = skip === 1 ? 14 : 14 * skip;
