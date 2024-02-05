@@ -15,3 +15,27 @@ export type TLogBody = {
     poster: string;
     year: string;
   };
+
+  export type TLogMovie = {
+    contain_spoilers: boolean;
+    created_at: string;
+    had_watched_before: boolean;
+    id: string;
+    like: boolean;
+    movie: movie;
+    movieId: number;
+    movie_watched_date: string;
+    rating: number;
+    review: string;
+    updated_at: string;
+    userId: string;
+  };
+  
+  export type TPaginationLogs = {
+    pages: number;
+    count: number;
+    actualPage: number;
+    total: number;
+    data: TLogMovie[];
+  };
+  
