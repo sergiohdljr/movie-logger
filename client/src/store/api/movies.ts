@@ -1,23 +1,28 @@
 import { defineStore } from "pinia";
 import { Ref, ref } from "vue";
-import { TAxiosTypedReturn, api } from "../../config/axios/axios.config";
+import { api } from "../../config/axios/axios.config";
 import { useAuthStore } from "./auth";
 import { toast } from "@/components/ui/toast";
 import { AxiosError } from "axios";
-import { TLogBody } from "./types";
+import { TLogBody, TLogMovie, TPaginationLogs } from "./types";
 
 export const useMovies = defineStore("movies", () => {
   const { token } = useAuthStore();
   const moviesLogged: Ref<TLogMovie[] | []> = ref([]);
+  const totalMovies = ref(0);
 
   async function getLoggedMovies() {
     try {
-      const { data } = await api.get<TAxiosTypedReturn<TLogMovie[]>>("/log", {
+      const { data } = await api.get<TPaginationLogs>("/log", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      moviesLogged.value = data.data;
+
+      const { data: logs, total: totalLogs } = data;
+
+      moviesLogged.value = logs;
+      totalMovies.value = totalLogs;
     } catch (error) {
       console.error(error);
     }
@@ -57,27 +62,5 @@ export const useMovies = defineStore("movies", () => {
     }
   }
 
-  return { moviesLogged, getLoggedMovies, logMovie };
+  return { moviesLogged, getLoggedMovies, logMovie, totalMovies };
 });
-
-type Movie = {
-  id: number;
-  name: string;
-  poster: string;
-  year: string;
-};
-
-type TLogMovie = {
-  contain_spoilers: boolean;
-  created_at: string;
-  had_watched_before: boolean;
-  id: string;
-  like: boolean;
-  movie: Movie;
-  movieId: number;
-  movie_watched_date: string;
-  rating: number;
-  review: string;
-  updated_at: string;
-  userId: string;
-};
