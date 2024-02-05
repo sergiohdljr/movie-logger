@@ -18,11 +18,13 @@ export class LogController {
   public async findByUserId(req: Request, res: Response): Promise<Response> {
     const findLogsByIdService = new FindLogsByIdService();
     const { id } = req.user;
+    const skip = parseInt(req.query.skip as string);
 
-    const logs = await findLogsByIdService.execute(id);
+    const logs = await findLogsByIdService.execute(id, skip);
 
     return res.json(logs);
   }
+
   public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.user;
     const { log_id } = req.params;
