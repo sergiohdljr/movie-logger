@@ -4,9 +4,14 @@ export type TLogRepository = {
   save: (log: TCreateLogRepo) => Promise<Log>;
   update: (id: string, payload: TUpdateLog) => Promise<Log>;
   findById: (id: string) => Promise<Log | null>;
-  findAllByUserId: (id: string) => Promise<TLogWithMovies[]>;
+  findAllByUserId: (id: string, skip: number) => Promise<TLogsWithCount>;
   findAll: () => Promise<Log[]>;
   remove: (id: string) => Promise<void>;
+};
+
+export type TLogsWithCount = {
+  logs: Array<TLogWithMovies>;
+  total: number;
 };
 
 export type TCreateLogRepo = Prisma.LogCreateInput;
@@ -22,8 +27,11 @@ export type TLogWithMovies = Log & {
 };
 
 export type TLogsResponse<T> = {
-  data: T;
+  pages?: number;
   count?: number;
+  actualPage?: number;
+  total?: number;
+  data: T;
 };
 
 export type TDiary = {

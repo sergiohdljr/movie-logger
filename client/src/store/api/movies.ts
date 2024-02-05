@@ -1,25 +1,43 @@
 import { defineStore } from "pinia";
 import { Ref, ref } from "vue";
-import { TAxiosTypedReturn, api } from "../../config/axios/axios.config";
+import { api } from "../../config/axios/axios.config";
 import { useAuthStore } from "./auth";
 import { toast } from "@/components/ui/toast";
 import { AxiosError } from "axios";
-import { TLogBody } from "./types";
+import { TLogBody, TLogMovie, TPaginationLogs } from "./types";
 
 export const useMovies = defineStore("movies", () => {
   const { token } = useAuthStore();
   const moviesLogged: Ref<TLogMovie[] | []> = ref([]);
+  const paginationInfo = ref({
+    totalMovies: 0,
+    pages: 0,
+    actualPage: 1,
+  });
 
-  async function getLoggedMovies() {
+  async function getLoggedMovies(skip?: number) {
     try {
-      const { data } = await api.get<TAxiosTypedReturn<TLogMovie[]>>("/log", {
+      const { data } = await api.get<TPaginationLogs>(`/log?skip=${skip}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      moviesLogged.value = data.data;
+
+      const { data: logs, total: totalLogs, actualPage, pages } = data;
+
+      moviesLogged.value = logs;
+      paginationInfo.value.totalMovies = totalLogs;
+      paginationInfo.value.actualPage = actualPage;
+      paginationInfo.value.pages = pages;
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError) {
+        toast({
+          title: "Error Load",
+          description: error.response?.data.message,
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
     }
   }
 
@@ -33,9 +51,10 @@ export const useMovies = defineStore("movies", () => {
 
       if (status === 200) {
         moviesLogged.value = [
-          ...moviesLogged.value,
           { ...data, movie: logMovie.movie },
+          ...moviesLogged.value,
         ];
+        moviesLogged.value.pop();
 
         toast({
           title: `:)`,
@@ -57,27 +76,5 @@ export const useMovies = defineStore("movies", () => {
     }
   }
 
-  return { moviesLogged, getLoggedMovies, logMovie };
+  return { moviesLogged, getLoggedMovies, logMovie, paginationInfo };
 });
-
-type Movie = {
-  id: number;
-  name: string;
-  poster: string;
-  year: string;
-};
-
-type TLogMovie = {
-  contain_spoilers: boolean;
-  created_at: string;
-  had_watched_before: boolean;
-  id: string;
-  like: boolean;
-  movie: Movie;
-  movieId: number;
-  movie_watched_date: string;
-  rating: number;
-  review: string;
-  updated_at: string;
-  userId: string;
-};

@@ -60,6 +60,11 @@ const logMovieSelected = async () => {
 
 const openModal = () => {
   clearSearch();
+  liked.value = false,
+  rating.value = 0,
+  review.value = "",
+  contain_spoilers.value = false,
+  had_watched_before.value = false,
   isOpen.value = !isOpen.value;
   searchValue.value = "";
 };
