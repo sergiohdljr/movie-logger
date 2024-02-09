@@ -12,3 +12,14 @@ O Movie Logger é uma aplicação simples para o registro de filmes assistidos. 
 ![Express](https://img.shields.io/badge/-Express-black?logo=express&style=social)&nbsp;&nbsp;
 ![Prisma](https://img.shields.io/badge/-Prisma-black?logo=prisma&style=social)&nbsp;&nbsp;
 ![Postgres](https://img.shields.io/badge/-Postgres-black?logo=postgresql&style=social)&nbsp;&nbsp;
+
+### folder structure 
+```js
++-- movielogger
+|   +-- client // front-end code 
+|   +-- server // back-end code
+```
+
+### Entity Relational Diagram 
+
+![ERM](server/prisma/ERD.png)
