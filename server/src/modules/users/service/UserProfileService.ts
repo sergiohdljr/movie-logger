@@ -8,7 +8,7 @@ export class UserProfileService {
     const userRepository = new UserRepository();
     const redisService = new RedisCache();
 
-    let profile = await redisService.GET<TUserProfile>("MOVIE_LOGGER_USER_PROFILE");
+    let profile = await redisService.GET<TUserProfile>(`${id}_MOVIE_LOGGER_USER_PROFILE`);
 
     if (!profile) {
       const user = await userRepository.findById(id);
@@ -19,7 +19,7 @@ export class UserProfileService {
 
       const { username, avatar, email, name } = user;
       profile = { username, avatar, email, name };
-      await redisService.SET("MOVIE_LOGGER_USER_PROFILE", { name, username, email, avatar });
+      await redisService.SET(`${id}_MOVIE_LOGGER_USER_PROFILE`, { name, username, email, avatar });
     }
 
     return profile;
