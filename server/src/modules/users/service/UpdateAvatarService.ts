@@ -4,6 +4,7 @@ import path from "path";
 import fs from "fs";
 import upload from "@config/upload";
 import { User } from "@prisma/client";
+import { RedisCache } from "@shared/cache/RedisCache";
 
 type TUploadAvatarPayload = {
   user_id: string;
@@ -13,6 +14,7 @@ type TUploadAvatarPayload = {
 export class UpdateUserAvatarService {
   public async execute({ user_id, avatarFileName }: TUploadAvatarPayload): Promise<User> {
     const usersRepository = new UserRepository();
+    const redisService = new RedisCache();
 
     const user = await usersRepository.findById(user_id);
 
@@ -30,6 +32,8 @@ export class UpdateUserAvatarService {
     user.avatar = avatarFileName;
 
     const updatedUser = await usersRepository.update(user_id, user);
+
+    await redisService.DEL(`${user_id}_MOVIE_LOGGER_USER_PROFILE`);
 
     return updatedUser;
   }
