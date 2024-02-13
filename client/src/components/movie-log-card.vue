@@ -42,7 +42,7 @@ defineProps<{
         <TooltipTrigger>
           <picture class="flex w-full h-[92%] cursor-pointer">
             <img
-              class="w-full h-full rounded-[2px] hover:border-4 border-green"
+              class="w-full h-full rounded-[2px] hover:border-2 border-green"
               :src="log.movie.poster"
               alt=""
               srcset=""
