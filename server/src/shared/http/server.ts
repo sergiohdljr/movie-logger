@@ -6,6 +6,7 @@ import Cors from "cors";
 import * as dotenv from "dotenv";
 import upload from "@config/upload";
 import morgan from "morgan";
+import { consola } from "consola";
 
 const app = Express();
 
@@ -29,4 +30,6 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(process.env.PORT || 3333);
+app.listen(process.env.PORT || 3333, () => {
+  consola.start(`Server Running on ${process.env.PORT}`);
+});
