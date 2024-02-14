@@ -4,7 +4,8 @@ import { TLogWithMovies, TLogsResponse, TQueryFilters } from "../types/logs.type
 export class FindLogsByIdService {
   public async execute(
     id: string,
-    skip: number,
+    skip?: number,
+    take?: number,
     queryFilters?: TQueryFilters,
   ): Promise<TLogsResponse<TLogWithMovies[]>> {
     const logRepository = new LogRepository();
@@ -19,7 +20,7 @@ export class FindLogsByIdService {
       skip = skip === 1 ? 14 : 14 * skip;
     }
 
-    const { logs, total } = await logRepository.findAllByUserId(id, skip, queryFilters);
+    const { logs, total } = await logRepository.findAllByUserId(id, skip, take, queryFilters);
 
     const pages = Math.ceil(total / 14);
     const count = logs.length;

@@ -30,7 +30,7 @@ export class LogController {
       filterQuery = Object.assign({}, { review: "review" }) as TQueryFilters;
     }
 
-    const logs = await findLogsByIdService.execute(id, skip, filterQuery);
+    const logs = await findLogsByIdService.execute(id, skip, 14, filterQuery);
 
     return res.json(logs);
   }

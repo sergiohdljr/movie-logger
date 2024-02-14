@@ -46,7 +46,8 @@ export class LogRepository implements TLogRepository {
 
   public async findAllByUserId(
     userId: string,
-    skip: number,
+    skip?: number,
+    take?: number | 14,
     filters?: TQueryFilters,
   ): Promise<TLogsWithCount> {
     const filter = {
@@ -70,7 +71,7 @@ export class LogRepository implements TLogRepository {
           created_at: "desc",
         },
         skip,
-        take: 14,
+        take,
       }),
 
       this.prismaClient.log.count({
