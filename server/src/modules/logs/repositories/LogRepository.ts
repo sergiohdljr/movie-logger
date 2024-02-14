@@ -1,4 +1,10 @@
-import { TCreateLogRepo, TLogRepository, TLogsWithCount, TUpdateLog } from "../types/logs.types";
+import {
+  TCreateLogRepo,
+  TLogRepository,
+  TLogsWithCount,
+  TQueryFilters,
+  TUpdateLog,
+} from "../types/logs.types";
 import { prisma } from "@shared/prisma/prismaClient";
 import { PrismaClient, Log } from "@prisma/client";
 
@@ -38,12 +44,25 @@ export class LogRepository implements TLogRepository {
     return log;
   }
 
-  public async findAllByUserId(userId: string, skip: number): Promise<TLogsWithCount> {
+  public async findAllByUserId(
+    userId: string,
+    skip: number,
+    filters?: TQueryFilters,
+  ): Promise<TLogsWithCount> {
+    const filter = {
+      userId,
+      ...(filters?.like !== null && filters?.like !== undefined && { like: true }),
+      ...(filters?.review !== null &&
+        filters?.review !== undefined && {
+          review: {
+            not: "",
+          },
+        }),
+    };
+
     const [logs, total] = await this.prismaClient.$transaction([
       this.prismaClient.log.findMany({
-        where: {
-          userId,
-        },
+        where: filter,
         include: {
           movie: true,
         },
@@ -55,9 +74,7 @@ export class LogRepository implements TLogRepository {
       }),
 
       this.prismaClient.log.count({
-        where: {
-          userId,
-        },
+        where: filter,
       }),
     ]);
 
