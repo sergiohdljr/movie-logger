@@ -15,13 +15,16 @@ export const useMovies = defineStore("movies", () => {
     actualPage: 1,
   });
 
-  async function getLoggedMovies(skip?: number) {
+  async function getLoggedMovies(skip?: number, filter?: string) {
     try {
-      const { data } = await api.get<TPaginationLogs>(`/log?skip=${skip}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await api.get<TPaginationLogs>(
+        `/log?skip=${skip}&filter=${filter}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const { data: logs, total: totalLogs, actualPage, pages } = data;
 
