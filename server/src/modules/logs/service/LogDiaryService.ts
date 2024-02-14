@@ -4,7 +4,7 @@ import { TDiary, TKeyOfTmonthsOfYear, TLogsResponse, monthsOfYear } from "../typ
 export class LogDiaryService {
   public async execute(id: string): Promise<TLogsResponse<TDiary>> {
     const logRepository = new LogRepository();
-    const logs = await logRepository.findAllByUserId(id);
+    const { logs } = await logRepository.findAllByUserId(id);
 
     type keyDiary = keyof TDiary;
 

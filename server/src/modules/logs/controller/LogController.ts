@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import { CreateLogService } from "../service/CreateLogService";
-import { TLogBody } from "../types/logs.types";
+import { TLogBody, TQueryFilters } from "../types/logs.types";
 import { FindLogsByIdService } from "../service/FindLogsByIdService";
 import { DeleteLogService } from "../service/DeleteLogService";
 
@@ -17,10 +17,20 @@ export class LogController {
 
   public async findByUserId(req: Request, res: Response): Promise<Response> {
     const findLogsByIdService = new FindLogsByIdService();
+    const querys = req.query;
     const { id } = req.user;
-    const skip = parseInt(req.query.skip as string);
+    const skip = parseInt(querys.skip as string);
+    let filterQuery;
 
-    const logs = await findLogsByIdService.execute(id, skip);
+    if (querys.filter === "like") {
+      filterQuery = Object.assign({}, { like: "like" }) as TQueryFilters;
+    }
+
+    if (querys.filter === "review") {
+      filterQuery = Object.assign({}, { review: "review" }) as TQueryFilters;
+    }
+
+    const logs = await findLogsByIdService.execute(id, skip, 14, filterQuery);
 
     return res.json(logs);
   }

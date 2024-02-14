@@ -9,6 +9,11 @@ export type TLogRepository = {
   remove: (id: string) => Promise<void>;
 };
 
+export type TQueryFilters = {
+  like?: "like";
+  review?: "review";
+};
+
 export type TLogsWithCount = {
   logs: Array<TLogWithMovies>;
   total: number;
