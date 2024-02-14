@@ -3,15 +3,19 @@ import { useRoute, useRouter } from "vue-router";
 import { Button } from "./ui/button";
 import { ref, watch } from "vue";
 
-const buttonsValues = ["Films", "Diary", "Reviews", "Likes"] as const;
+const buttonsValues = ["films", "diary", "review", "like"] as const;
 const router = useRouter();
 const route = useRoute();
 
 function setState(state: string) {
+  if (route.query.page) {
+    router.push({ query: { render: state, page: route.query.page } });
+    return;
+  }
   router.push({ query: { render: state } });
 }
 
-const renderState = ref("Films");
+const renderState = ref("films");
 
 watch(
   () => route.query.render,
@@ -30,7 +34,7 @@ watch(
       :key="i"
       :class="`font-normal bg-transparent rounded-none 
               ${
-                renderState === btnText ? 'border-b-2 border-green' : null
+                $route.query.render as string === btnText ? 'border-b-2 border-green' : null
               }  hover:text-blue-400 hover:bg-transparent`"
       @click="setState(btnText)"
     >

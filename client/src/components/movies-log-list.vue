@@ -20,7 +20,13 @@ const { getLoggedMovies } = useMovies();
 const router = useRouter();
 const route = useRoute();
 
+const renderQuery = route.query.render as string;
+
 function setPageQuery(page: number) {
+  if (renderQuery) {
+    router.push({ query: { page, render: renderQuery } });
+    return;
+  }
   router.push({ query: { page } });
 }
 const page = ref<string | null>();
@@ -34,7 +40,7 @@ watch(
 
 const skipPage = async (page: number) => {
   setPageQuery(page);
-  await getLoggedMovies(page - 1);
+  await getLoggedMovies(page - 1, renderQuery);
 };
 </script>
 
