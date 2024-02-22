@@ -40,9 +40,12 @@ defineProps<{
     <Tooltip>
       <article class="w-[150px] h-[255px]">
         <TooltipTrigger>
-          <picture class="flex w-full h-[92%] cursor-pointer">
+          <picture
+            class="flex w-full h-[92%] rounded-[2px] border-2 
+             border-transparent cursor-pointer hover:border-green transition-colors ease-in-out"
+          >
             <img
-              class="w-full h-full rounded-[2px] hover:border-2 border-green"
+              class="w-full h-full rounded-[2px]"
               :src="log.movie.poster"
               alt=""
               srcset=""
