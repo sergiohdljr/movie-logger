@@ -101,6 +101,7 @@ const searchMovies = async (search: string) => {
         <ul class="bg-white rounded-md text-black" v-if="movies.length > 0">
           <li
             v-for="movie in movies"
+            :key="movie.id"
             @click="selectMovie(movie)"
             class="p-1 cursor-pointer hover:bg-green hover:text-white"
           >
