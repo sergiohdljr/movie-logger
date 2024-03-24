@@ -2,7 +2,6 @@ import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import { UserAvatarController } from "../controllers/UserAvatarController";
 import multer from "multer";
-import upload from "@config/upload";
 import { isAuthenticated } from "@shared/middlewares/isAuthenticated";
 import upload from "@config/upload";
 
