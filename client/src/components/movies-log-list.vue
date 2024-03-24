@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import movieLogCard from "./movie-log-card.vue";
+import movieLogCard  from "./movie-log-card.vue";
 import { TLogMovie } from "@/store/api/types";
 import { Button } from "./ui/button";
 import { useMovies } from "@/store/api/movies";
@@ -47,7 +47,7 @@ const skipPage = async (page: number) => {
 <template>
   <main class="w-full h-full">
     <div class="movies-grid">
-      <movie-log-card v-for="log in logsList" :log="log" />
+      <movie-log-card v-for="log in logsList" :log="log" :key="log.id" />
     </div>
     <Separator class="bg-steel-blue" />
     <div class="w-full h-auto flex gap-3 justify-center pt-2 pb-3">
@@ -66,11 +66,12 @@ const skipPage = async (page: number) => {
 <style scoped>
 .movies-grid {
   width: 100%;
+  height: 580px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, 150px);
   grid-template-rows: auto;
-  justify-items: center;
-  justify-content: center;
+  justify-items: left;
+  justify-content: left;
   gap: 1.5rem;
   padding-bottom: 2rem;
 }

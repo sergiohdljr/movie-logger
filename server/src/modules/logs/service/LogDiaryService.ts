@@ -1,8 +1,8 @@
 import { LogRepository } from "../repositories/LogRepository";
-import { TDiary, TKeyOfTmonthsOfYear, TLogsResponse, monthsOfYear } from "../types/logs.types";
+import { TDiary, TKeyOfTmonthsOfYear, monthsOfYear } from "../types/logs.types";
 
 export class LogDiaryService {
-  public async execute(id: string): Promise<TLogsResponse<TDiary>> {
+  public async execute(id: string): Promise<TDiary> {
     const logRepository = new LogRepository();
     const { logs } = await logRepository.findAllByUserId(id);
 
@@ -23,20 +23,16 @@ export class LogDiaryService {
       December: [],
     };
 
+    Object.values(diary);
+
     logs.forEach((log) => {
       const monthNumber: TKeyOfTmonthsOfYear = log.movie_watched_date.getMonth();
       const monthName: keyDiary = monthsOfYear[monthNumber];
       diary[monthName].push(log);
     });
 
-    const response = {
-      data: diary,
-    };
+    
 
-    return response;
+    return diary;
   }
 }
-
-/* data:[
- january: logs of january 
-] */
