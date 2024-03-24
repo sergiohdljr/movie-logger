@@ -1,10 +1,16 @@
 import { LogRepository } from "../repositories/LogRepository";
-import { TDiary, TKeyOfTmonthsOfYear, monthsOfYear } from "../types/logs.types";
+import { TDiary, TKeyOfTmonthsOfYear } from "../types/logs.types";
+
+type TuserDiary = Array<{
+  month: string;
+  logs: Array<TDiary | []>;
+}>;
 
 export class LogDiaryService {
-  public async execute(id: string): Promise<TDiary> {
+  public async execute(id: string): Promise<TuserDiary> {
     const logRepository = new LogRepository();
     const { logs } = await logRepository.findAllByUserId(id);
+    const actualMonth = new Date().getMonth();
 
     type keyDiary = keyof TDiary;
 
@@ -23,16 +29,31 @@ export class LogDiaryService {
       December: [],
     };
 
-    Object.values(diary);
+    const diaryReduce = logs.reduce((userDiary: TuserDiary, log) => {
+      const monthsArray = Object.keys(diary);
+      const diaryValuesArray = Object.values(diary);
 
-    logs.forEach((log) => {
       const monthNumber: TKeyOfTmonthsOfYear = log.movie_watched_date.getMonth();
-      const monthName: keyDiary = monthsOfYear[monthNumber];
-      diary[monthName].push(log);
-    });
+      const monthName: keyDiary = monthsArray[monthNumber];
 
-    
+      const logsByMonth = monthsArray.map((month, index) => {
+        return {
+          month,
+          logs: diaryValuesArray[index],
+        };
+      });
 
-    return diary;
+      logsByMonth.forEach((logByMonth) => {
+        if (logByMonth.month === monthName) {
+          logByMonth.logs.push(log);
+        }
+      });
+
+      const showUntilActualMonth = logsByMonth.filter((_, index) => index <= actualMonth);
+
+      return showUntilActualMonth;
+    }, []);
+
+    return diaryReduce;
   }
 }
