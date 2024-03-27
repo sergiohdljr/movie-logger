@@ -38,4 +38,12 @@ export type TLogBody = {
     total: number;
     data: TLogMovie[];
   };
+
+  export type TDiary = {
+    [key: string]: Array<TLogMovie>;
+  };
   
+  export type TuserDiary = Array<{
+    month: string;
+    logs: Array<TDiary | []>;
+  }>;
