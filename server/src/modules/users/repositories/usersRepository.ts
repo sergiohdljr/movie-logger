@@ -1,6 +1,11 @@
 import { prisma } from "@shared/prisma/prismaClient";
 import { PrismaClient, User } from "@prisma/client";
-import { TCreateUser, TUpdateUser, TUserRepository } from "../types/user.types";
+import {
+  TCreateUser,
+  TUpdateUser,
+  TUserRepository,
+  TUserWithoutPassword,
+} from "../types/user.types";
 
 export class UserRepository implements TUserRepository {
   private readonly prismaClient: PrismaClient;
@@ -52,10 +57,19 @@ export class UserRepository implements TUserRepository {
     return users;
   }
 
-  public async update(id: string, payload: TUpdateUser): Promise<User> {
-    const user = this.prismaClient.user.update({
+  public async update(id: string, payload: TUpdateUser): Promise<TUserWithoutPassword> {
+    const user = await this.prismaClient.user.update({
       where: { id },
       data: payload,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        avatar: true,
+        created_at: true,
+        updated_at: true,
+      },
     });
 
     return user;

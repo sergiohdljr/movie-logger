@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 
 type TUserRepository = {
   save: (user: TCreateUser) => Promise<User>;
-  update: (id: string, payload: TUpdateUser) => Promise<User>;
+  update: (id: string, payload: TUpdateUser) => Promise<TUserWithoutPassword>;
   findById: (id: string) => Promise<User | null>;
   findByEmail: (email: string) => Promise<User | null>;
   findByUsername: (username: string) => Promise<User | null>;
@@ -11,7 +11,7 @@ type TUserRepository = {
 };
 
 type TCreateUser = Omit<User, "id" | "created_at" | "updated_at">;
-type TUpdateUser = Partial<TCreateUser>;
+type TUpdateUser = Omit<TCreateUser, "password" | "email">;
 type TUserWithoutPassword = Omit<User, "password">;
 type TCreateSession = Pick<TCreateUser, "email" | "password">;
 type TResponseSession = {

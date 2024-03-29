@@ -1,5 +1,7 @@
 import { Response, Request } from "express";
 import { CreateUserService } from "../service/CreateUserService";
+import { UserRepository } from "../repositories/usersRepository";
+import { UpdateUserService } from "../service/UpdateUserService";
 
 export class UserController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -16,5 +18,20 @@ export class UserController {
     });
 
     return res.json(User);
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const updateUser = new UpdateUserService(new UserRepository());
+    const user_id = req.user.id;
+    const { name, username, avatar } = req.body;
+    const avatarFileName = req.file?.filename;
+
+    const userUpdated = await updateUser.execute(
+      user_id,
+      { name, username, avatar },
+      avatarFileName,
+    );
+
+    return res.json(userUpdated);
   }
 }
