@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"npx tsc",
-    "start:dev": "tsx watch ./src/shared/http/server.ts"
+    "build": "npx tsc",
+    "start:dev": "tsx watch ./src/shared/http/server.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
