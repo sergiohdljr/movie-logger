@@ -3,8 +3,8 @@ import { UserRepository } from "../repositories/usersRepository";
 import path from "path";
 import fs from "fs";
 import upload from "@config/upload";
-import { User } from "@prisma/client";
 import { RedisCache } from "@shared/cache/RedisCache";
+import { TUserWithoutPassword } from "../types/user.types";
 
 type TUploadAvatarPayload = {
   user_id: string;
@@ -12,7 +12,10 @@ type TUploadAvatarPayload = {
 };
 
 export class UpdateUserAvatarService {
-  public async execute({ user_id, avatarFileName }: TUploadAvatarPayload): Promise<User> {
+  public async execute({
+    user_id,
+    avatarFileName,
+  }: TUploadAvatarPayload): Promise<TUserWithoutPassword> {
     const usersRepository = new UserRepository();
     const redisService = new RedisCache();
 
