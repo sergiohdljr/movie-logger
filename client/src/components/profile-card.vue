@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import Button from "@/components/ui/button/Button.vue";
+import UpdateProfileDialog from "./update-user-dialog.vue";
 
 defineProps<{
   user: {
@@ -26,10 +26,7 @@ defineProps<{
         />
       </picture>
       <h2 class="font-medium text-2xl text-white">{{ user.name }}</h2>
-      <Button
-        class="h-7 rounded-[3px] transform uppercase bg-steel-blue text-blue-100"
-        >edit profile</Button
-      >
+      <UpdateProfileDialog />
     </CardContent>
     <CardFooter
       class="hidden w-32 h-full sm:flex justify-between items-center gap-2 p-0"
