@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { Ref, ref } from "vue";
 import { useAuthStore } from "./auth";
 import { api } from "../../config/axios/axios.config";
+import { toast } from "@/components/ui/toast";
+import { AxiosError } from "axios";
 
 type userProfile = {
   name: string;
@@ -15,6 +17,7 @@ export const useUserProfile = defineStore("profile", () => {
     avatar: "",
     name: "",
   });
+
   const { token } = useAuthStore();
 
   async function getProfile() {
@@ -27,5 +30,32 @@ export const useUserProfile = defineStore("profile", () => {
     profile.value = data;
   }
 
-  return { profile, getProfile };
+  async function updateProfile(userPayload: userProfile) {
+    console.log(userPayload)
+    try {
+      await api.put("/users", userPayload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast({
+        title: "sucess!!!",
+        description: "profile updated",
+        class: "bg-green text-white",
+        duration: 2000,
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message);
+        toast({
+          title: "Register Error",
+          description: error.response?.data.message,
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
+    }
+  }
+
+  return { profile, getProfile, updateProfile };
 });
