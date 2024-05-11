@@ -7,46 +7,25 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
-import { Input } from "@/components/ui/input";
-import { FormControl, FormField, FormLabel, FormItem } from "./ui/form";
 import { ref } from "vue";
-import { z } from "zod";
-import { toTypedSchema } from "@vee-validate/zod";
-import { useForm } from "vee-validate";
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+const usersData = ref({
+  name: '',
+  username: '',
+  avatar: ""
+})
 
-const updateUser = toTypedSchema(
-  z.object({
-    name: z.string(),
-    avatar: z
-      .any()
-      .refine((files) => files?.length >= 1, { message: "Image is required." })
-      .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), {
-        message: ".jpg, .jpeg, .png and .webp files are accepted.",
-      })
-      .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
-        message: `Max file size is 5MB.`,
-      }),
-    username: z.string(),
-  })
-);
+const handleAvatar = (e: Event) => {
+  usersData.value.avatar = e.target?.files[0]
+}
 
-const { handleSubmit } = useForm({
-  validationSchema: updateUser,
-});
-
-const onSubmit = handleSubmit(async ({ name, avatar, username }) => {
-  console.log(name, username, avatar);
-});
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  console.log(usersData.value)
+}
 
 const dialogOpen = ref<boolean>(false);
+
 function dialogControl(): void {
   dialogOpen.value = !dialogOpen.value;
 }
@@ -55,54 +34,32 @@ function dialogControl(): void {
 <template>
   <AlertDialog :open="dialogOpen">
     <AlertDialogTrigger as-child>
-      <Button
-        class="h-7 rounded-[3px] transform uppercase bg-steel-blue text-blue-100"
-        @click="dialogControl"
-        >Editar Perfil</Button
-      >
+      <Button class="h-7 rounded-[3px] transform uppercase bg-steel-blue text-blue-100" @click="dialogControl">Editar
+        Perfil</Button>
     </AlertDialogTrigger>
-    <AlertDialogContent
-      class="bg-steel-blue"
-      aria-describedby="update-user-dialog"
-    >
+    <AlertDialogContent class="bg-steel-blue" aria-describedby="update-user-dialog">
       <AlertDialogTitle class="text-white">Update user</AlertDialogTitle>
       <form class="w-full flex flex-col gap-4" @onsubmit="onSubmit">
-        <FormField v-slot="{ componentField }" name="name">
-          <FormItem>
-            <FormLabel>
-              <p class="text-white">name</p>
-            </FormLabel>
-            <FormControl>
-              <Input placeholder="name" v-bind="componentField" />
-            </FormControl>
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="username">
-          <FormItem>
-            <FormLabel>
-              <p class="text-white">username</p>
-            </FormLabel>
-            <FormControl>
-              <Input placeholder="username" v-bind="componentField" />
-            </FormControl>
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="avatar">
-          <FormItem>
-            <FormLabel>
-              <p class="text-white">avatar</p>
-            </FormLabel>
-            <FormControl>
-              <Input type="file" v-bind="componentField" />
-            </FormControl>
-          </FormItem>
-        </FormField>
+        <input class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm 
+          ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium
+           placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950
+            focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50
+             dark:border-gray-800 dark:bg-gray-950 dark:ring-offset-gray-950
+              dark:placeholder:text-gray-400 dark:focus-visible:ring-gray-300" type="text" name="name" id="name"
+          placeholder="name" v-model="usersData.name">
+        <input class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm 
+          ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium
+           placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950
+            focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800
+             dark:bg-gray-950 dark:ring-offset-gray-950 dark:placeholder:text-gray-400
+              dark:focus-visible:ring-gray-300" type="text" name="username" id="username" placeholder="username"
+          v-model="usersData.username">
+        <input type="file" name="avatar" id="avatar" @change="handleAvatar">
+        <AlertDialogFooter>
+          <Button variant="destructive" @click="dialogControl">Close</Button>
+          <Button class="bg-green" @click="onSubmit">Update</Button>
+        </AlertDialogFooter>
       </form>
-
-      <AlertDialogFooter>
-        <Button variant="destructive" @click="dialogControl">Close</Button>
-        <Button class="bg-green" type="submit">Update</Button>
-      </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
 </template>
