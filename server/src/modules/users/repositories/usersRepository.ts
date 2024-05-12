@@ -58,9 +58,11 @@ export class UserRepository implements TUserRepository {
   }
 
   public async update(id: string, payload: TUpdateUser): Promise<TUserWithoutPassword> {
+    const updated_at = new Date();
+
     const user = await this.prismaClient.user.update({
       where: { id },
-      data: payload,
+      data: { ...payload, updated_at },
       select: {
         id: true,
         name: true,

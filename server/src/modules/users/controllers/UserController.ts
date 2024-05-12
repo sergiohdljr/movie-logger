@@ -23,14 +23,9 @@ export class UserController {
   public async update(req: Request, res: Response): Promise<Response> {
     const updateUser = new UpdateUserService(new UserRepository());
     const user_id = req.user.id;
-    const { name, username, avatar } = req.body;
-    const avatarFileName = req.file?.filename;
+    const { name, username } = req.body;
 
-    const userUpdated = await updateUser.execute(
-      user_id,
-      { name, username, avatar },
-      avatarFileName,
-    );
+    const userUpdated = await updateUser.execute(user_id, { name, username });
 
     return res.json(userUpdated);
   }

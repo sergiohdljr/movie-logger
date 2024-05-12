@@ -11,7 +11,7 @@ import { ref } from "vue";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
 
-const imageUrlBase = "http://localhost:8081/files/";
+const imageUrlBase = "http://localhost:8080/files";
 const movieStore = useMovies();
 const { moviesLogged, paginationInfo } = storeToRefs(movieStore);
 const userProfileStore = useUserProfile();
