@@ -11,7 +11,7 @@ type TUserRepository = {
 };
 
 type TCreateUser = Omit<User, "id" | "created_at" | "updated_at">;
-type TUpdateUser = Omit<TCreateUser, "password" | "email">;
+type TUpdateUser = Partial<Omit<TCreateUser, "avatar" | "password" | "email">>;
 type TUserWithoutPassword = Omit<User, "password">;
 type TCreateSession = Pick<TCreateUser, "email" | "password">;
 type TResponseSession = {
