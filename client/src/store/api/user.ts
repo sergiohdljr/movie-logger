@@ -31,13 +31,13 @@ export const useUserProfile = defineStore("profile", () => {
   }
 
   async function updateProfile(userPayload: userProfile) {
-    console.log(userPayload)
     try {
       await api.put("/users", userPayload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      await getProfile();
       toast({
         title: "sucess!!!",
         description: "profile updated",
@@ -46,7 +46,6 @@ export const useUserProfile = defineStore("profile", () => {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message);
         toast({
           title: "Register Error",
           description: error.response?.data.message,
