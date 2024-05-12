@@ -11,6 +11,12 @@ type userProfile = {
   avatar: string;
 };
 
+type updateUserProfile = {
+  name: string;
+  username: string;
+  avatar: File;
+};
+
 export const useUserProfile = defineStore("profile", () => {
   const profile: Ref<userProfile> = ref({
     username: "",
@@ -30,13 +36,36 @@ export const useUserProfile = defineStore("profile", () => {
     profile.value = data;
   }
 
-  async function updateProfile(userPayload: userProfile) {
+  async function updateAvatar(file: File) {
+    const data = new FormData();
+    data.append("avatar", file);
+
     try {
-      await api.put("/users", userPayload, {
+      await api.patch("/users/avatar", data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateProfile(userPayload: updateUserProfile) {
+    const { name, username, avatar } = userPayload;
+
+    try {
+      await api.put(
+        "/users",
+        { name, username },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      await updateAvatar(avatar);
       await getProfile();
       toast({
         title: "sucess!!!",
