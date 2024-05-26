@@ -26,16 +26,26 @@ export const useUserProfile = defineStore("profile", () => {
 
   const { token } = useAuthStore();
 
-  async function getProfile() {
-    const { data } = await api.get<userProfile>("/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  async function getProfile(userToken: string) {
+    try {
+      const { data } = await api.get<userProfile>("/profile", {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
 
-    profile.value = data;
+      profile.value = data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast({
+          title: "Register Error",
+          description: error.response?.data.message,
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
+    }
   }
-
   async function updateAvatar(file: File) {
     const data = new FormData();
     data.append("avatar", file);
@@ -48,7 +58,15 @@ export const useUserProfile = defineStore("profile", () => {
         },
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast({
+          title: "Register Error",
+          description: error.response?.data.message,
+          variant: "destructive",
+          duration: 2000,
+        });
+      }
+
     }
   }
 
@@ -66,7 +84,6 @@ export const useUserProfile = defineStore("profile", () => {
         }
       );
       await updateAvatar(avatar);
-      await getProfile();
       toast({
         title: "sucess!!!",
         description: "profile updated",
