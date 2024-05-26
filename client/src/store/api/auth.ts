@@ -23,8 +23,8 @@ export const useAuthStore = defineStore("auth", () => {
       localStorage.setItem("token", data.token);
       token.value = localStorage.getItem("token");
       toast({
-        title: `Bem vindo ${data.data.user.name}`,
-        description: "Login Realizado com Sucesso!",
+        title: `bem vindo ${data.data.user.name}`,
+        description: "login realizado com sucesso!",
         variant: "default",
         class: "bg-green text-white",
         duration: 2000,
