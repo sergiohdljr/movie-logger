@@ -7,6 +7,7 @@ import moviesLogList from "@/components/movies-log-list.vue";
 import ButtonsNavigation from "../components/buttons-navigation.vue";
 import { useMovies } from "../store/api/movies";
 import { useUserProfile } from "../store/api/user";
+import { useAuthStore } from '../store/api/auth.ts'
 import { ref } from "vue";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
@@ -19,12 +20,13 @@ const { profile } = storeToRefs(userProfileStore);
 const route = useRoute();
 const page = route.query.page;
 const render = route.query.render;
+const { token } = useAuthStore();
 
 onMounted(async () => {
-  await userProfileStore.getProfile(),
+   await userProfileStore.getProfile(token),
     (profile.value.avatar = `${imageUrlBase}/${profile.value.avatar}`);
   if (!page && !render) {
-    await movieStore.getLoggedMovies();
+    await movieStore.getLoggedMovies(token);
     return;
   }
   const actualPage = parseInt(page as string) - 1;
