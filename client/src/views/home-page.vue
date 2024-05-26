@@ -31,7 +31,7 @@ onMounted(async () => {
   }
   const actualPage = parseInt(page as string) - 1;
   const filter = render as string;
-  await movieStore.getLoggedMovies(actualPage, filter);
+  await movieStore.getLoggedMovies(token, actualPage, filter);
 });
 
 const renderState = ref("films");
@@ -41,7 +41,7 @@ watch(
   async (newState) => {
     renderState.value = newState as string;
     const actualPage = parseInt(page as string) - 1;
-    await movieStore.getLoggedMovies(actualPage, renderState.value);
+    await movieStore.getLoggedMovies(token,actualPage, renderState.value);
   }
 );
 
@@ -49,7 +49,7 @@ watch(
   () => page,
   async (page) => {
     const actualPage = parseInt(page as string) - 1;
-    await movieStore.getLoggedMovies(actualPage, renderState.value);
+    await movieStore.getLoggedMovies(token, actualPage, renderState.value);
   }
 );
 </script>
